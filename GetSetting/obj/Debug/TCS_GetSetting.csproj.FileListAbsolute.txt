@@ -1,0 +1,4 @@
+D:\工作檔案\[大宅門]\資料接收控制常駐\TCS_DataReceivingManage\TCS_GetSetting\bin\Debug\TCS_GetSetting.dll
+D:\工作檔案\[大宅門]\資料接收控制常駐\TCS_DataReceivingManage\TCS_GetSetting\bin\Debug\TCS_GetSetting.pdb
+D:\工作檔案\[大宅門]\資料接收控制常駐\TCS_DataReceivingManage\TCS_GetSetting\obj\Debug\TCS_GetSetting.dll
+D:\工作檔案\[大宅門]\資料接收控制常駐\TCS_DataReceivingManage\TCS_GetSetting\obj\Debug\TCS_GetSetting.pdb

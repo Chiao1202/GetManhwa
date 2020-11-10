@@ -1,0 +1,895 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MM</name>
+    </assembly>
+    <members>
+        <member name="T:MM.Database.OleDb">
+            <summary>
+            OleDb data access class
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.#ctor">
+            <summary>
+            OleDb data access class
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.#ctor(System.String)">
+            <summary>
+            OleDb data access class
+            </summary>
+            <param name="ConnectionString">Connection String</param>
+        </member>
+        <member name="M:MM.Database.OleDb.Finalize">
+            <summary>
+            destructor
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.Dispose">
+            <summary>
+            Release all resource that has been used
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.Construct">
+            <summary>
+            Initialize essential object, Open connection
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.Deconstruct">
+            <summary>
+            Dispose all objects that has been created
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.BuildConnectionString(System.String)">
+            <summary>
+            Build connection string use OleDbConnectionStringBuilder
+            </summary>
+            <param name="DataSource">MDB file path name</param>
+        </member>
+        <member name="M:MM.Database.OleDb.setConnectionString(System.String)">
+            <summary>
+            Build connection string use SqlConnectionStringBuilder
+            </summary>
+            <param name="connectionString">connectionString</param>
+        </member>
+        <member name="M:MM.Database.OleDb.BuildConnectionString(System.String,System.String,System.String)">
+            <summary>
+            Build connection string use OleDbConnectionStringBuilder
+            </summary>
+            <param name="DataSource">MDB file path name</param>
+            <param name="User">Login MDB</param>
+            <param name="Pass">MDB password</param>
+        </member>
+        <member name="M:MM.Database.OleDb.BuildConnectionString(System.String,System.String,System.String,System.String)">
+            <summary>
+            Build connection string use OleDbConnectionStringBuilder
+            </summary>
+            <param name="DataSource">MDB file path name</param>
+            <param name="DefaultSchema">Default Schema Name</param>
+            <param name="User">Login MDB</param>
+            <param name="Pass">MDB password</param>
+        </member>
+        <member name="M:MM.Database.OleDb.Select_return_DataSet(System.Data.OleDb.OleDbCommand)">
+            <summary>
+            Select data with OleDBSqlCommand
+            </summary>
+            <param name="OC">OleDbCommand object for select command</param>
+            <returns>DataSet</returns>
+        </member>
+        <member name="M:MM.Database.OleDb.Execute(System.Data.OleDb.OleDbCommand)">
+            <summary>
+            ExecuteNonQuery,For Insert/Update/Delete
+            </summary>
+            <param name="OC">OleDbCommand object for Insert/Update/Delete command</param>
+            <returns>Affected rows count</returns>
+        </member>
+        <member name="M:MM.Database.OleDb.BeginTransaction">
+            <summary>
+            Begin transaction
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.CommitTransaction">
+            <summary>
+            Commit transaction
+            </summary>
+        </member>
+        <member name="M:MM.Database.OleDb.RollbackTransaction">
+            <summary>
+            Roll back transaction
+            </summary>
+        </member>
+        <member name="P:MM.Database.OleDb.ConnectionString">
+            <summary>
+            Get or set ConnectionString for OleDbConnection
+            </summary>
+        </member>
+        <!-- 忽略成員 "M:MM.Encryption.DES.encrypt(System.String,System.String,System.String)" 中格式錯誤的 XML 註解 -->
+        <!-- 忽略成員 "M:MM.Encryption.DES.decrypt(System.String,System.String,System.String)" 中格式錯誤的 XML 註解 -->
+        <!-- 忽略成員 "M:MM.Encryption.MD5.encrypt(System.String)" 中格式錯誤的 XML 註解 -->
+        <member name="T:MM.Ini.IniFile">
+            <summary>
+            Create a New INI file to store or load data
+            </summary>
+        </member>
+        <member name="F:MM.Ini.IniFile.path">
+            <summary>
+            The path
+            </summary>
+        </member>
+        <member name="M:MM.Ini.IniFile.WritePrivateProfileString(System.String,System.String,System.String,System.String)">
+            <summary>
+            Writes the private profile string.
+            </summary>
+            <param name="section">The section.</param>
+            <param name="key">The key.</param>
+            <param name="val">The value.</param>
+            <param name="filePath">The file path.</param>
+            <returns>System.Int64.</returns>
+        </member>
+        <member name="M:MM.Ini.IniFile.GetPrivateProfileString(System.String,System.String,System.String,System.Text.StringBuilder,System.Int32,System.String)">
+            <summary>
+            Gets the private profile string.
+            </summary>
+            <param name="section">The section.</param>
+            <param name="key">The key.</param>
+            <param name="def">The definition.</param>
+            <param name="retVal">The ret value.</param>
+            <param name="size">The size.</param>
+            <param name="filePath">The file path.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:MM.Ini.IniFile.GetPrivateProfileSection(System.String,System.Byte[],System.Int32,System.String)">
+            <summary>
+            Gets the private profile section.
+            </summary>
+            <param name="lpAppName">Name of the lp application.</param>
+            <param name="lpszReturnBuffer">The LPSZ return buffer.</param>
+            <param name="nSize">Size of the n.</param>
+            <param name="lpFileName">Name of the lp file.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:MM.Ini.IniFile.#ctor(System.String)">
+            <summary>
+            INIFile Constructor.
+            </summary>
+            <param name="INIPath">The ini path.</param>
+        </member>
+        <member name="M:MM.Ini.IniFile.IniWriteValue(System.String,System.String,System.String)">
+            <summary>
+            將資料寫入到ini檔
+            Write Data to the INI File
+            </summary>
+            <param name="Section">The section.</param>
+            <param name="Key">The key.</param>
+            <param name="Value">The value.</param>
+            Section name
+            Key Name
+            Value Name
+        </member>
+        <member name="M:MM.Ini.IniFile.IniReadValue(System.String,System.String)">
+            <summary>
+            從ini檔中讀取資料
+            Read Data Value From the Ini File
+            </summary>
+            <param name="Section">The section.</param>
+            <param name="Key">The key.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:MM.Ini.IniFile.GetKeys(System.String)">
+            <summary>
+            回傳某組Section
+            </summary>
+            <param name="Section">The section.</param>
+            <returns>List&lt;System.String&gt;.</returns>
+        </member>
+        <member name="T:MM.NET">
+            <summary>
+            Class NET.
+            </summary>
+        </member>
+        <member name="M:MM.NET.GetStream(System.String,System.Int32)">
+            <summary>
+            取得網址的Stream
+            </summary>
+            <param name="url">網址</param>
+            <param name="sec">Timeout</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="M:MM.NET.GetStream(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Gets the stream.
+            </summary>
+            <param name="url">網址</param>
+            <param name="ID">帳號</param>
+            <param name="password">密碼</param>
+            <param name="sec">Timeout</param>
+            <returns>Stream.</returns>
+        </member>
+        <member name="M:MM.NET.GetBitmap(System.String,System.Int32)">
+            <summary>
+            取得Bitmap
+            </summary>
+            <param name="url">網址</param>
+            <param name="sec">Timeout</param>
+            <returns>Bitmap.</returns>
+        </member>
+        <member name="M:MM.NET.GetBitmap(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            取得Bitmap
+            </summary>
+            <param name="url">網址</param>
+            <param name="ID">帳號</param>
+            <param name="password">密碼</param>
+            <param name="sec">Timeout</param>
+            <returns>Bitmap.</returns>
+        </member>
+        <member name="M:MM.NET.GetString(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            取得網址回傳字串
+            </summary>
+            <param name="url">網址</param>
+            <param name="sec">Timeout</param>
+            <param name="Encoding">UTF8、ASCII</param>
+            <param name="retType">Type of the ret.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:MM.NET.GetQueryString(System.String,System.Text.Encoding,System.Boolean)">
+            <summary>
+            將查詢字串解析轉換為名值集合.
+            </summary>
+            <param name="queryString">網址，請先用Uri判斷網址</param>
+            <param name="encoding">The encoding.</param>
+            <param name="isEncoded">if set to <c>true</c> [is encoded].</param>
+            <returns>NameValueCollection.</returns>
+        </member>
+        <member name="M:MM.NET.UrlDeCode(System.String,System.Text.Encoding)">
+            <summary>
+            解碼URL.
+            </summary>
+            <param name="str">The string.</param>
+            <param name="encoding">null為自動選擇編碼</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:MM.NET.GetQueryString(System.String)">
+            <summary>
+            將查詢字串解析轉換為名值集合.
+            </summary>
+            <param name="queryString">The query string.</param>
+            <returns>NameValueCollection.</returns>
+        </member>
+        <member name="T:MM.utils">
+            <summary>
+            共用函數
+            </summary>
+        </member>
+        <member name="M:MM.utils.Dump(System.Web.SessionState.HttpSessionState)">
+            <summary>
+            輸出目前所有Session
+            </summary>
+            <param name="session">The session.</param>
+        </member>
+        <member name="M:MM.utils.Dump(System.Data.DataTable)">
+            <summary>
+            輸出DataTable
+            </summary>
+            <param name="DT">The dt.</param>
+        </member>
+        <member name="M:MM.utils.Dump(System.String,System.Collections.ArrayList)">
+            <summary>
+            輸出Sql帶參數
+            </summary>
+            <param name="Sql">sql</param>
+            <param name="PARAMS">ArrayList(SqlParameter)</param>
+        </member>
+        <member name="M:MM.utils.Pass">
+            <summary>
+            Passes this instance.
+            </summary>
+            <returns>String.</returns>
+        </member>
+        <member name="M:MM.utils.isValidSSN(System.String)">
+            <summary>
+            Determines whether [is valid SSN] [the specified identifier].
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns><c>true</c> if [is valid SSN] [the specified identifier]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:MM.utils.IsValidEmail(System.String)">
+            <summary>
+            查詢email格式正不正確
+            </summary>
+            <param name="emailaddress">The emailaddress.</param>
+            <returns><c>true</c> if [is valid email] [the specified emailaddress]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:MM.utils.isFileExtensionValid(System.String,System.String[])">
+            <summary>
+            檢查副檔名，符不符合清單中
+            </summary>
+            <param name="filename">The filename.</param>
+            <param name="allowedExtensions">String[] allowedExtensions = { ".gif", ".png", ".jpeg", ".jpg" };</param>
+            <returns><c>true</c> if [is file extension valid] [the specified filename]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="T:MM.IO.DownLoad">
+            <summary>
+            DownLoad 的摘要描述
+            </summary>
+        </member>
+        <member name="M:MM.IO.DownLoad.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.IO.DownLoad"/> class.
+            </summary>
+        </member>
+        <member name="M:MM.IO.DownLoad.DownLoadFile(System.Web.UI.Page,System.String,System.String,System.String)">
+            <summary>
+            一般網頁使用，會跳出alert
+            </summary>
+            <param name="PassPage">The pass page.</param>
+            <param name="ContentType">Type of the content.</param>
+            <param name="DownLoadFilePath">檔案路徑</param>
+            <param name="FileName">檔案名稱與附檔名</param>
+        </member>
+        <member name="M:MM.IO.DownLoad.DownLoadFile(System.String,System.String,System.String)">
+            <summary>
+            不會跳出alert
+            </summary>
+            <param name="ContentType">Type of the content.</param>
+            <param name="DownLoadFilePath">檔案路徑</param>
+            <param name="FileName">檔案名稱與附檔名</param>
+        </member>
+        <member name="M:MM.IO.DownLoad.DownLoadFile(System.String,System.Byte[],System.String)">
+            <summary>
+            不會跳出alert，輸入參數為byte[]
+            </summary>
+            <param name="ContentType">Type of the content.</param>
+            <param name="FileByte">將要輸出的檔案預先存成byte[]</param>
+            <param name="FileName">檔案名稱與附檔名</param>
+        </member>
+        <member name="T:MM.Database.MSSQL">
+            <summary>
+            MSSQL 的摘要描述
+            使用方法:
+            在方法使用前先設定連線字串 method: setConnectionString()
+            可使用的方法
+            1. Select_Return_DataSet()      下SQL的Select語法，回傳<Object>DataSet</Object>
+            2. Select()                     下SQL的Select語法，回傳<object>DataTable</object>
+            3. Execute()                    下SQL的Insert/Update/Delete語法，回傳<para>int</para>為成功的筆數
+            4. ExecuteScalar()              下SQL的Insert/Update/Delete語法，回傳<para>int</para>帶單筆結果的資料
+            5. Execute_Return_Identity()    下SQL的Insert/Update/Delete語法，回傳<para>int</para>為該表的primary key
+            7. BeginTransaction()
+            8. CommitTransaction()
+            9. RollbackTransaction()
+            </summary>
+        </member>
+        <member name="F:MM.Database.MSSQL._UseTransaction">
+            <summary>
+            是否使用 transaction
+            </summary>
+        </member>
+        <member name="F:MM.Database.MSSQL._ConnectionString">
+            <summary>
+            連線字串
+            </summary>
+        </member>
+        <member name="F:MM.Database.MSSQL._sqlConn">
+            <summary>
+            The SQL connection
+            </summary>
+        </member>
+        <member name="F:MM.Database.MSSQL._SDA">
+            <summary>
+            The SqlDataAdapter
+            </summary>
+        </member>
+        <member name="F:MM.Database.MSSQL._DS">
+            <summary>
+            The DataSet
+            </summary>
+        </member>
+        <member name="F:MM.Database.MSSQL._ST">
+            <summary>
+            The SqlTransaction
+            </summary>
+        </member>
+        <member name="F:MM.Database.MSSQL._EXECUTE_TYPE">
+            <summary>
+            設定下執行SQL時，是否回傳identity
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.Database.MSSQL"/> class.
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.#ctor(System.String)">
+            <summary>
+            SqlClient data access class
+            </summary>
+            <param name="ConnectionString">連線字串</param>
+        </member>
+        <member name="M:MM.Database.MSSQL.Finalize">
+            <summary>
+            destructor
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.Dispose">
+            <summary>
+            Release all resource that has been used
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.Construct">
+            <summary>
+            Initialize essential object, Open connection
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.Deconstruct">
+            <summary>
+            Dispose all objects that has been created
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.setConnectionString(System.String)">
+            <summary>
+            Build connection string use SqlConnectionStringBuilder
+            </summary>
+            <param name="connectionString">connectionString</param>
+        </member>
+        <member name="M:MM.Database.MSSQL.setConnectionString(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Build connection string use SqlConnectionStringBuilder
+            </summary>
+            <param name="DBServer">Database server name or IP</param>
+            <param name="DBPort">Database port</param>
+            <param name="InitailCatalog">Catalog Name</param>
+            <param name="User">Login user</param>
+            <param name="Pass">Password</param>
+        </member>
+        <member name="M:MM.Database.MSSQL.setConnectionString(System.String,System.String,System.String,System.String)">
+            <summary>
+            Build connection string use SqlConnectionStringBuilder
+            </summary>
+            <param name="DBServer">Database server name or IP</param>
+            <param name="InitailCatalog">Catalog Name</param>
+            <param name="User">Login user</param>
+            <param name="Pass">Password</param>
+        </member>
+        <member name="M:MM.Database.MSSQL.Select_Return_DataSet(System.Data.SqlClient.SqlCommand,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Select data with SqlCommand
+            </summary>
+            <param name="SC">SqlCommand object for select command</param>
+            <param name="cmdParms">The command parms.</param>
+            <returns>DataSet</returns>
+            <example>
+            SqlParameter[] _parameters = {
+            new SqlParameter("@statusid", SqlDbType.NVarChar,20),
+            new SqlParameter("@YelloAlertLevel", SqlDbType.Int,10)
+            };
+            _parameters[0].Value = "-9";
+            _parameters[1].Value = 2000;
+            </example>
+        </member>
+        <member name="M:MM.Database.MSSQL.Select_Return_DataSet(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Select data with sql string, and other condition added
+            </summary>
+            <param name="sql">sql string</param>
+            <param name="cmdParms">The command parms.</param>
+            <returns>DataSet</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.Select_Return_DataSet(System.String,System.Collections.ArrayList)">
+            <summary>
+            Select data with sql string, and other condition added
+            </summary>
+            <param name="sql">sql string</param>
+            <param name="PARAMS">The parameters.</param>
+            <returns>DataSet</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.Select(System.String,System.Collections.ArrayList,System.Int32)">
+            <summary>
+            Select data with sql string, and other condition added
+            </summary>
+            <param name="sql">sql string</param>
+            <param name="PARAMS">The parameters.</param>
+            <param name="Timeout">The timeout.</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.Select(System.String,System.Int32,System.Int32,System.String,System.String,System.Collections.ArrayList)">
+            <summary>
+            分頁查詢
+            </summary>
+            <param name="sql">The SQL.</param>
+            <param name="PageNo">第幾頁</param>
+            <param name="PageSize">一次顯示幾筆</param>
+            <param name="orderbyText">排序欄位，必填</param>
+            <param name="sort">排序，必填</param>
+            <param name="PARAMS">參數，必填</param>
+            <returns>DataTable.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            </exception>
+        </member>
+        <member name="M:MM.Database.MSSQL.Select_Return_Clumn(System.String,System.String,System.Collections.ArrayList)">
+            <summary>
+            回傳指定欄位名稱
+            </summary>
+            <param name="sql">The SQL.</param>
+            <param name="clumnName">Name of the clumn.</param>
+            <param name="PARAMS">The parameters.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.setExecute_Type(System.String)">
+            <summary>
+            回傳Identity/或單一一個值
+            </summary>
+            <param name="onoff">The onoff.</param>
+        </member>
+        <member name="M:MM.Database.MSSQL.Execute_Return_Identity(System.String,System.Collections.ArrayList)">
+            <summary>
+            ExecuteScalar,For Insert/Update/Delete
+            </summary>
+            <param name="sql">SqlCommand string for Insert/Update/Delete command</param>
+            <param name="PARAMS">SqlParameter arraylist</param>
+            <returns>Identity</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.ExecuteScalar(System.String,System.Collections.ArrayList)">
+            <summary>
+            ExecuteScalar,For Insert/Update/Delete
+            ExecuteScalar is typically used when your query returns
+            a single value. If it returns more, then the result is
+            the first column of the first row.
+            An example might be SELECT @@IDENTITY AS
+            </summary>
+            <param name="sql">SqlCommand string for Insert/Update/Delete command</param>
+            <param name="PARAMS">SqlParameter arraylist</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.Execute(System.String,System.Collections.ArrayList)">
+            <summary>
+            ExecuteNonQuery,For Insert/Update/Delete
+            </summary>
+            <param name="sql">SqlCommand object for Insert/Update/Delete command</param>
+            <param name="PARAMS">SqlParameter array list</param>
+            <returns>Affected rows count</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.Execute(System.String,System.Collections.ArrayList,System.String)">
+            <summary>
+            Executes the specified SQL.
+            </summary>
+            <param name="sql">The SQL.</param>
+            <param name="PARAMS">The parameters.</param>
+            <param name="ComdType">Type of the comd.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.Execute(System.String)">
+            <summary>
+            ExecuteNonQuery,For Insert/Update/Delete,without Where Condition
+            </summary>
+            <param name="sql">The SQL.</param>
+            <returns>Affected rows count</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.Execute(System.Data.SqlClient.SqlCommand,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            ExecuteNonQuery,For Insert/Update/Delete
+            </summary>
+            <param name="SC">SqlCommand object for Insert/Update/Delete command</param>
+            <param name="cmdParms">The command parms.</param>
+            <returns>Affected rows count / Identity</returns>
+        </member>
+        <member name="M:MM.Database.MSSQL.BeginTransaction">
+            <summary>
+            Begin transaction, Remember to commit or rollback later
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.CommitTransaction">
+            <summary>
+            Commit transaction
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.RollbackTransaction">
+            <summary>
+            Roll back transaction
+            </summary>
+        </member>
+        <member name="M:MM.Database.MSSQL.GetLimitText(System.String,System.String,System.String)">
+            <summary>
+            Gets the limit text.
+            </summary>
+            <param name="commandText">The command text.</param>
+            <param name="orderbyText">The orderby text.</param>
+            <param name="sort">The sort.</param>
+            <returns>System.String.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            </exception>
+        </member>
+        <member name="P:MM.Database.MSSQL.ConnectionString">
+            <summary>
+            Get or Set ConnectionString for SqlClient
+            </summary>
+            <value>The connection string.</value>
+        </member>
+        <member name="T:MM.IO.FILE">
+            <summary>
+            FILE 的摘要描述
+            </summary>
+        </member>
+        <member name="F:MM.IO.FILE._FILE_PATH">
+            <summary>
+            檔案路徑
+            </summary>
+        </member>
+        <member name="M:MM.IO.FILE.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.IO.FILE"/> class.
+            </summary>
+            <param name="FILE_PATH">The fil e_ path.</param>
+        </member>
+        <member name="M:MM.IO.FILE.isDirectoryValid">
+            <summary>
+            檢查路徑資料夾完不完整
+            </summary>
+            <returns><c>true</c> if [is directory valid]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:MM.IO.FILE.createDirectory">
+            <summary>
+            建立路徑中的資料夾
+            </summary>
+        </member>
+        <member name="M:MM.IO.FILE.createFile">
+            <summary>
+            產生檔案
+            </summary>
+        </member>
+        <member name="M:MM.IO.FILE.isFileExist">
+            <summary>
+            檢查檔案是否存在
+            </summary>
+            <returns><c>true</c> if [is file exist]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:MM.IO.FILE.IsFileLocked">
+            <summary>
+            檢查檔案是否使用中，使用中就關閉
+            </summary>
+            <returns><c>true</c> if [is file locked]; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="P:MM.IO.FILE.FILE_PATH">
+            <summary>
+            取得或設置檔案路徑
+            </summary>
+            <value>FILE_PATH</value>
+        </member>
+        <member name="T:MM.IO.FileUtil">
+            <summary>
+            Class FileUtil.
+            </summary>
+        </member>
+        <member name="F:MM.IO.FileUtil._PATH">
+            <summary>
+            The _ path
+            </summary>
+        </member>
+        <member name="M:MM.IO.FileUtil.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.IO.FileUtil"/> class.
+            </summary>
+        </member>
+        <member name="M:MM.IO.FileUtil.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.IO.FileUtil"/> class.
+            </summary>
+            <param name="path">The path.</param>
+        </member>
+        <member name="M:MM.IO.FileUtil.write(System.String,System.String)">
+            <summary>
+            寫資料到一個檔案
+            </summary>
+            <param name="path">The path.</param>
+            <param name="content">The content.</param>
+        </member>
+        <member name="M:MM.IO.FileUtil.getContent">
+            <summary>
+            取得檔案內所有內容到一個字串
+            </summary>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:MM.IO.FileUtil.ToByteArray">
+            <summary>
+            取得檔案回傳byte array
+            </summary>
+            <returns>System.Byte[].</returns>
+        </member>
+        <member name="T:MM.IO.ImageFILE">
+            <summary>
+            ImageFILE 的摘要描述
+            </summary>
+        </member>
+        <member name="M:MM.IO.ImageFILE.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.IO.FILE"/> class.
+            </summary>
+            <param name="FILE_PATH">檔案路徑.</param>
+        </member>
+        <member name="M:MM.IO.ImageFILE.getInfo">
+            <summary>
+            取得圖片的資訊
+            ex: MessageBox.Show("Width: " + img.Width + ", Height: " + img.Height);
+            </summary>
+            <returns>Image.</returns>
+        </member>
+        <member name="M:MM.IO.ImageFILE.ImageResize(System.Int32,System.Int32)">
+            <summary>
+            將輸入的檔案，做圖片大小的功能
+            </summary>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param>
+        </member>
+        <member name="T:MM.JSClass">
+            <summary>
+            多次呼叫runjs/alert/redirect 會在一個queue裡面，網頁postback結束後一起run
+            </summary>
+        </member>
+        <member name="F:MM.JSClass.handlerPages">
+            <summary>
+            The handler pages
+            </summary>
+        </member>
+        <member name="M:MM.JSClass.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.JSClass"/> class.
+            </summary>
+        </member>
+        <member name="M:MM.JSClass.alert(System.String)">
+            <summary>
+            codebehind 呼叫在前端alert
+            </summary>
+            <param name="Message">alert的內容</param>
+        </member>
+        <member name="M:MM.JSClass.redirect(System.String)">
+            <summary>
+            前端轉址
+            </summary>
+            <param name="url">The URL.</param>
+        </member>
+        <member name="M:MM.JSClass.register(System.String)">
+            <summary>
+            updatePanel註冊function
+            </summary>
+            <param name="script"></param>
+        </member>
+        <member name="M:MM.JSClass.run(System.String)">
+            <summary>
+            codebehind 呼叫前端js function
+            </summary>
+            <param name="functionname">函示名稱,ex: MM.JSClass.runjs("getValue();")</param>
+        </member>
+        <member name="M:MM.JSClass.Show(System.Web.UI.Page,System.String)">
+            <summary>
+            alert
+            </summary>
+            <param name="page">The page.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:MM.JSClass.Redirect(System.Web.UI.Page,System.String)">
+            <summary>
+            導頁
+            </summary>
+            <param name="page">The page.</param>
+            <param name="url">The URL.</param>
+        </member>
+        <member name="M:MM.JSClass.CurrentPageUnload(System.Object,System.EventArgs)">
+            <summary>
+            Currents the page unload.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="T:MM.IO.LogFile">
+            <summary>
+            專門為製作Log檔用
+            因為try catch不回傳事件
+            <para></para> 
+            服務路徑 System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location + "log.txt")
+            <para></para> 
+            網頁路徑 MM.IO.LogFile(HttpContext.Current.Server.MapPath("~/log.txt"));
+            </summary>
+        </member>
+        <member name="T:MM.IO.TextFile">
+            <summary>
+            製作檔案用
+            </summary>
+        </member>
+        <member name="F:MM.IO.TextFile._FilePath">
+            <summary>
+            The _ file path
+            </summary>
+        </member>
+        <member name="F:MM.IO.TextFile._FS">
+            <summary>
+            The _ fs
+            </summary>
+        </member>
+        <member name="F:MM.IO.TextFile._SW">
+            <summary>
+            The _ sw
+            </summary>
+        </member>
+        <member name="F:MM.IO.TextFile._SR">
+            <summary>
+            The _ sr
+            </summary>
+        </member>
+        <member name="M:MM.IO.TextFile.#ctor(System.String)">
+            <summary>
+            Create a log file to trace event and error
+            </summary>
+            <param name="FilePath">The file path.</param>
+        </member>
+        <member name="M:MM.IO.TextFile.setFilePath(System.String)">
+            <summary>
+            Sets the file path.
+            </summary>
+            <param name="FilePath">The file path.</param>
+        </member>
+        <member name="M:MM.IO.TextFile.Finalize">
+            <summary>
+            destructor
+            </summary>
+        </member>
+        <member name="M:MM.IO.TextFile.Dispose">
+            <summary>
+            Release all resource that has been used
+            </summary>
+        </member>
+        <member name="M:MM.IO.TextFile.Construct(System.String)">
+            <summary>
+            Set file path for log file,Initialize essential object.
+            Create directory if specifict path doesn't exists
+            </summary>
+            <param name="readerOrWriter">The reader or writer.</param>
+        </member>
+        <member name="M:MM.IO.TextFile.Deconstruct">
+            <summary>
+            Dispose all objects that has been created
+            </summary>
+        </member>
+        <member name="M:MM.IO.TextFile.read">
+            <summary>
+            讀取資料
+            </summary>
+            <returns>回傳讀取的內容</returns>
+        </member>
+        <member name="M:MM.IO.TextFile.write(System.String)">
+            <summary>
+            寫入資料
+            </summary>
+            <param name="sText1">要寫入的內容.</param>
+        </member>
+        <member name="M:MM.IO.TextFile.getByteArray">
+            <summary>
+            將指定的檔案，轉出成二進位陣列
+            </summary>
+            <returns>System.Byte[].</returns>
+        </member>
+        <member name="P:MM.IO.TextFile.FilePath">
+            <summary>
+            Get or set the full path name for log file
+            </summary>
+            <value>The file path.</value>
+        </member>
+        <member name="M:MM.IO.LogFile.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MM.IO.LogFile"/> class.
+            </summary>
+            <param name="filePath">The file path.</param>
+        </member>
+        <member name="M:MM.IO.LogFile.SimpleLog(System.String)">
+            <summary>
+            Create a log with all custom infomation in single line
+            </summary>
+            <param name="sText1">Text for output</param>
+        </member>
+        <member name="M:MM.IO.LogFile.ErrorLog(System.Exception)">
+            <summary>
+            Create a log with detail error infomation
+            </summary>
+            <param name="Ex">Exception object for output error log</param>
+        </member>
+    </members>
+</doc>
