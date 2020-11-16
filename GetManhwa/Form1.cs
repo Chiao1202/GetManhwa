@@ -16,13 +16,16 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Collections;
 using mshtml;
-using ChromeBrowser;
+//using ChromeBrowser;
 using Microsoft.Win32;
 using System.Security;
-using System.Collections.Concurrent;
+//using System.Collections.Concurrent;
 using System.Web;
 using System.Diagnostics;
 using System.Threading.Tasks;
+
+
+
 namespace GetManhwa
 {
 
@@ -226,6 +229,7 @@ namespace GetManhwa
         string RecordFileName = "RecordList.csv";
         private void Form1_Load(object sender, EventArgs e)
         {
+           
             //※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※
             //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://i.hamreus.com/ps3/y/yiquanchaoren/%E7%AC%AC179%E8%AF%9D/0TIbMu.png.webp?e=1605310131&m=vzvYBcVxGKB-CsJzX5-XDQ");
             //request.Headers.Clear();
@@ -1722,6 +1726,7 @@ namespace GetManhwa
 
                     FLPWorkList.Controls.Add(workoption.FLP);
                     #endregion
+                    await Task.Delay(10);
                 }
 
                 if (IsCheckWork)
@@ -2267,6 +2272,7 @@ namespace GetManhwa
                                 AddRecord(strURL, strNUM, workoption.Name, strSUB_NUM);
                             }
                             CheckWorkAndStartWork();//更新狀態(完成下載)
+                            IsDO = false;
                             return;
                         }
                         #endregion
@@ -2281,66 +2287,31 @@ namespace GetManhwa
                 if (IsDO)//要執行下載時
                 {
                     workoption.Message = "下載第" + workoption.PageIndex + "頁";
-                    //透過get_manhuagui.exe
-                    string Comm = string.Format("\"{0}\" \"{1}\"", Directory.GetCurrentDirectory() + "\\get_manhuagui.exe", strFinalURL);
+                    List<string> listLinks = new List<string>();
+                    if (workoption.listPageURL != null && workoption.listPageURL.Count > 0)
+                        listLinks = workoption.listPageURL;
 
-                    string Result = RunProcess(Comm);//取得結果
-
-                    int Index00 = Result.LastIndexOf("#");//內容有#時
-                    if (Index00 > -1)
+                    if (listLinks == null || listLinks.Count < 1)
                     {
-                        //取得每一個內頁圖片連結
-                        Result = Result.Substring(Index00 + 1);
-
-                        string[] Links = Result.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                        //下載每筆內頁
-                        for (int i = 0; i < Links.Length; i++)
+                        //透過get_manhuagui.exe
+                        string Comm = string.Format("\"{0}\" \"{1}\"", Directory.GetCurrentDirectory() + "\\get_manhuagui.exe", strFinalURL);
+                        string Result = RunProcess(Comm);//取得結果
+                        int Index00 = Result.LastIndexOf("#");//內容有#時
+                        if (Index00 > -1)
                         {
-                            //跳過先前已下載的頁數
-                            if (i + 1 < workoption.PageIndex)
-                                continue;
-                            if (!CheckPageExist(workoption, SubDirPath))//已有該檔跳過
-                                continue;
-                            string strSRC = Links[i].Trim();
-                            //非連結，跳過
-                            if (strSRC.ToUpper().IndexOf("HTTP") < 0)
-                                continue;
-                            workoption.Message = string.Format("下載第{0}頁", workoption.PageIndex+1);
+                            #region 使用get_manhuagui.exe給的連結
+                            //取得每一個內頁圖片連結
+                            //Result = Result.Substring(Index00 + 1);
+                            //string[] Links = Result.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-                            //CheckWorkAndStartWork();//更新狀態
-                            //直接下載
-                            DownLoadLink(ref workoption, strSRC);
-
-                            workoption.RetryCnt = 0;//重試歸零
-                                                    //是否需要延遲下載，是的話隨機暫停時數
-                            if (ckbIsSleep.Checked)
-                            {
-                                Random random = new Random();
-                                int Sleep_S = 10, Sleep_E = 12;
-                                if (!int.TryParse(cmbSleep_S.Text.Trim(), out Sleep_S))
-                                    Sleep_S = 10;
-                                if (!int.TryParse(cmbSleep_E.Text.Trim(), out Sleep_E))
-                                    Sleep_E = 12;
-                                if (Sleep_E < Sleep_S)
-                                {
-                                    Sleep_S = 10;
-                                    Sleep_E = 12;
-                                }
-                                int intSleep = random.Next(Sleep_S, Sleep_E);
-                                await Task.Delay(intSleep*1000);
-                                workoption.PageIndex++;//頁碼增加
-                            }//是否需要延遲下載 結束
-
-                            
-                            break;
-                        }//下載每筆內頁 結束
-
-                        //已完成工作時
-                        #region 已完成工作時
-                        if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
+                            #endregion
+                            //2020/11/11 使用新的get_manhuagui.exe
+                            //自行解JSON結果字串
+                            listLinks = get_manhuagui_URL(Result).ToList();
+                            workoption.listPageURL = listLinks;
+                        }///內容有#時 結束
+                        else//內容沒有有#時 錯誤
                         {
-                            workoption.PageIndex = workoption.PageCount;
-
                             //將執行序停止並釋放
                             if (workoption.thread != null && workoption.thread.IsAlive)
                             {
@@ -2348,34 +2319,69 @@ namespace GetManhwa
                                 workoption.thread.Join();
                             }
                             workoption.IsWork = 0;//無執行
-                            workoption.Status = 2;//已完成
-                            workoption.Message = "完成下載";
-                            if (!chkShowComplete.Checked)//如果不Show完成下載
-                                workoption.FLP.Visible = false;
-
-                            if (chkRecord.Checked)
-                            {
-                                string strNUM = "";
-                                string strSUB_NUM = "";
-                                string P = "";
-                                string strURL = "";
-                                GetNumURL(workoption.URL, out strURL, out strNUM, out strSUB_NUM, out P);
-                                AddRecord(strURL, strNUM, workoption.Name, strSUB_NUM);
-                            }
-                            CheckWorkAndStartWork();//更新狀態(完成下載)
+                            workoption.Status = 4;//錯誤停止
+                            workoption.Message = "停止，get_manhuagui.exe錯誤";
+                            CheckWorkAndStartWork();//更新狀態(下載內頁圖片 Exception錯誤)
                             return;
                         }
+                    }
 
-                        //未完成工作時，報錯，進行下一個工作
-                        //CheckWorkAndStartWork();//更新狀態
-                        DoDownLoadWork(workoption);//進行下一頁工作
-                        //workoption.thread.Start(new object[] { workoption });//執行 執行緒
-                        //ShowWorkList(false);
-                        //DoDownLoadWorkobj(new object[] { workoption });
-                        #endregion
-                    }///內容有#時 結束
-                    else//內容沒有有#時 錯誤
+                    //下載每筆內頁
+                    for (int i = 0; i < listLinks.Count; i++)
                     {
+                        //跳過先前已下載的頁數
+                        if (i + 1 < workoption.PageIndex)
+                            continue;
+                        if (!CheckPageExist(workoption, SubDirPath))//已有該檔跳過
+                            continue;
+                        string strSRC = listLinks[i].Trim();
+                        //非連結，跳過
+                        if (strSRC.ToUpper().IndexOf("HTTP") < 0)
+                            continue;
+                        workoption.Message = string.Format("下載第{0}頁", workoption.PageIndex + 1);
+
+                        //CheckWorkAndStartWork();//更新狀態
+                        //直接下載
+                        DownLoadLink(ref workoption, strSRC);
+
+                        workoption.RetryCnt = 0;//重試歸零
+
+                        //是否需要延遲下載，是的話隨機暫停時數
+                        if (ckbIsSleep.Checked)
+                        {
+                            Random random = new Random();
+                            int Sleep_S = 10, Sleep_E = 12;
+                            if (!int.TryParse(cmbSleep_S.Text.Trim(), out Sleep_S))
+                                Sleep_S = 10;
+                            if (!int.TryParse(cmbSleep_E.Text.Trim(), out Sleep_E))
+                                Sleep_E = 12;
+                            if (Sleep_E < Sleep_S)
+                            {
+                                Sleep_S = 10;
+                                Sleep_E = 12;
+                            }
+                            int intSleep = random.Next(Sleep_S, Sleep_E);
+                            await Task.Delay(intSleep * 1000);
+
+                        }//是否需要延遲下載 結束
+
+                        workoption.PageIndex++;//頁碼增加
+                        //修改在迴圈跑完判斷是否完成
+                        if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
+                        {
+                            break;
+                        }
+                        //只跑1筆，剩下的使用遞迴方式繼續下載
+                        break;
+
+                    }//下載每筆內頁 結束
+
+                    //已完成工作時
+                    #region 已完成工作時
+                    if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
+                    {
+                        workoption.PageIndex = workoption.PageCount;
+
                         //將執行序停止並釋放
                         if (workoption.thread != null && workoption.thread.IsAlive)
                         {
@@ -2383,10 +2389,33 @@ namespace GetManhwa
                             workoption.thread.Join();
                         }
                         workoption.IsWork = 0;//無執行
-                        workoption.Status = 4;//錯誤停止
-                        workoption.Message = "停止，get_manhuagui.exe錯誤";
-                        CheckWorkAndStartWork();//更新狀態(下載內頁圖片 Exception錯誤)
+                        workoption.Status = 2;//已完成
+                        workoption.Message = "完成下載";
+                        if (!chkShowComplete.Checked)//如果不Show完成下載
+                            workoption.FLP.Visible = false;
+
+                        if (chkRecord.Checked)
+                        {
+                            string strNUM = "";
+                            string strSUB_NUM = "";
+                            string P = "";
+                            string strURL = "";
+                            GetNumURL(workoption.URL, out strURL, out strNUM, out strSUB_NUM, out P);
+                            AddRecord(strURL, strNUM, workoption.Name, strSUB_NUM);
+                        }
+                        CheckWorkAndStartWork();//更新狀態(完成下載)
+                        return;
                     }
+                    #endregion
+
+                    //未完成工作時，報錯，進行下一個工作
+                    //CheckWorkAndStartWork();//更新狀態
+                    DoDownLoadWork(workoption);//進行下一頁工作
+                                               //workoption.thread.Start(new object[] { workoption });//執行 執行緒
+                                               //ShowWorkList(false);
+                                               //DoDownLoadWorkobj(new object[] { workoption });
+
+
                 }//要執行下載時 結束
 
             }
@@ -2401,10 +2430,40 @@ namespace GetManhwa
                 workoption.IsWork = 0;//無執行
                 workoption.Status = 4;//錯誤停止
                 workoption.Message = "停止，錯誤01";
-                File.WriteAllText("D:\\TEMP\\Log.txt",ex.Message+ex.StackTrace);
+                File.WriteAllText("D:\\TEMP\\Log.txt", ex.Message + ex.StackTrace);
                 CheckWorkAndStartWork();//更新狀態(下載內頁圖片 Exception錯誤)
             }
             //}//跨執行緒結束
+        }
+
+        private string[] get_manhuagui_URL(string Result)
+        {
+            List<string> listURL = new List<string>();
+            GetValue(Result, out Result, "{", "#");
+            string files = "";
+            string Content2 = "";
+            GetValue(Result, out Content2, out files, "\"files\": [", "]");
+            string path = "";
+            //GetValue(Content2, out path, "\"path\": \"", "\"");
+            //path = path.Substring(0, path.Length - 1);//去掉最後一個/
+            //string Key1 = path.Substring(0,path.LastIndexOf("/"));
+            //string Key2 = path.Substring(path.LastIndexOf("/")+1);
+            //path = Key1+HttpUtility.UrlEncode(Key2)+"/";
+            GetValue(Content2, out path, "\"path_encode\": \"", "\"");
+            string strE = "";
+            GetValue(Content2, out strE, "\"e\":", ",");
+            string strM = "";
+            GetValue(Content2, out strM, "\"m\": \"", "\"");
+            
+            files = files.Replace("\"", "").Replace(",", "");
+            string[] strFiles = files.Split(new string[] {"\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < strFiles.Length; i++)
+            {
+                string file = strFiles[i].Trim();
+                listURL.Add(string.Format("https://i.hamreus.com{0}{1}?e={2}&m={3}", path, file, strE.Trim(), strM.Trim()));
+            }
+
+            return listURL.ToArray();
         }
 
         private static bool CheckPageExist(WorkOption workoption, string SubDirPath)
@@ -6058,6 +6117,12 @@ namespace GetManhwa
 
         public int NavigateCNT { get; set; }//導頁次數
         public int NavigateFlag { get; set; }//導頁次數限制
+
+
+        public List<string> listPageURL { get; set; }//內頁圖片連結
+
+
+
 
         CheckBox _chkSEL;
         public CheckBox chkSEL//選取

@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ColumnHeader columnHeader18;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnGet = new System.Windows.Forms.Button();
             this.txtURL = new System.Windows.Forms.TextBox();
@@ -256,7 +256,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtURL.Location = new System.Drawing.Point(63, 7);
             this.txtURL.Name = "txtURL";
-            this.txtURL.Size = new System.Drawing.Size(478, 23);
+            this.txtURL.Size = new System.Drawing.Size(462, 23);
             this.txtURL.TabIndex = 2;
             // 
             // wb
@@ -296,13 +296,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDirPath.Location = new System.Drawing.Point(109, 66);
             this.txtDirPath.Name = "txtDirPath";
-            this.txtDirPath.Size = new System.Drawing.Size(351, 23);
+            this.txtDirPath.Size = new System.Drawing.Size(335, 23);
             this.txtDirPath.TabIndex = 7;
             // 
             // btnSetting
             // 
             this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetting.Location = new System.Drawing.Point(548, 7);
+            this.btnSetting.Location = new System.Drawing.Point(532, 8);
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.Size = new System.Drawing.Size(87, 23);
             this.btnSetting.TabIndex = 8;
@@ -316,13 +316,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMainName.Location = new System.Drawing.Point(63, 37);
             this.txtMainName.Name = "txtMainName";
-            this.txtMainName.Size = new System.Drawing.Size(478, 23);
+            this.txtMainName.Size = new System.Drawing.Size(462, 23);
             this.txtMainName.TabIndex = 9;
             // 
             // btnGetBySetting
             // 
             this.btnGetBySetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGetBySetting.Location = new System.Drawing.Point(548, 37);
+            this.btnGetBySetting.Location = new System.Drawing.Point(532, 38);
             this.btnGetBySetting.Name = "btnGetBySetting";
             this.btnGetBySetting.Size = new System.Drawing.Size(87, 23);
             this.btnGetBySetting.TabIndex = 11;
@@ -394,14 +394,15 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.rdbRename);
             this.groupBox1.Controls.Add(this.rdbCover);
             this.groupBox1.Controls.Add(this.rdbContinue);
-            this.groupBox1.Controls.Add(this.groupBox3);
-            this.groupBox1.Location = new System.Drawing.Point(641, 9);
+            this.groupBox1.Location = new System.Drawing.Point(641, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(100, 83);
+            this.groupBox1.Size = new System.Drawing.Size(99, 97);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "內頁重覆處理";
@@ -442,13 +443,16 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.BackColor = System.Drawing.Color.LightPink;
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.txtWorkCount);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.cmbWorkCount);
-            this.groupBox3.Location = new System.Drawing.Point(7, 87);
+            this.groupBox3.Location = new System.Drawing.Point(756, 80);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(62, 21);
+            this.groupBox3.Size = new System.Drawing.Size(121, 113);
             this.groupBox3.TabIndex = 20;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "同時執行數量";
@@ -521,6 +525,7 @@
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.chkShowComplete);
             this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.btnOpenClosePanel);
             this.panel1.Controls.Add(this.btnAllDelete);
             this.panel1.Controls.Add(this.txtP_E);
@@ -735,7 +740,7 @@
             // btnBrowser
             // 
             this.btnBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowser.Location = new System.Drawing.Point(466, 65);
+            this.btnBrowser.Location = new System.Drawing.Point(450, 66);
             this.btnBrowser.Name = "btnBrowser";
             this.btnBrowser.Size = new System.Drawing.Size(75, 23);
             this.btnBrowser.TabIndex = 29;
@@ -746,7 +751,7 @@
             // btnSaveSaveSetting
             // 
             this.btnSaveSaveSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveSaveSetting.Location = new System.Drawing.Point(547, 65);
+            this.btnSaveSaveSetting.Location = new System.Drawing.Point(531, 66);
             this.btnSaveSaveSetting.Name = "btnSaveSaveSetting";
             this.btnSaveSaveSetting.Size = new System.Drawing.Size(88, 23);
             this.btnSaveSaveSetting.TabIndex = 28;
@@ -879,8 +884,8 @@
             // 
             this.PageCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.PageCount.DataPropertyName = "PageCount";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.PageCount.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PageCount.DefaultCellStyle = dataGridViewCellStyle2;
             this.PageCount.HeaderText = "頁數";
             this.PageCount.Name = "PageCount";
             this.PageCount.Width = 54;
