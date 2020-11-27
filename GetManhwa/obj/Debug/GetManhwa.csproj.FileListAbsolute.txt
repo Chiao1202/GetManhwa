@@ -48,3 +48,16 @@ D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetManhwa
 D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetManhwa\obj\Debug\GetManhwa.Form1.resources
 D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetManhwa\obj\Debug\GetManhwa.Properties.Resources.resources
 D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetManhwa\obj\Debug\GetManhwa.csproj.GenerateResource.Cache
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetManhwa\obj\Debug\GetManhwa.csprojResolveAssemblyReference.cache
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\bin\Debug\GetManhwa.exe.config
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\obj\Debug\GetManhwa.exe
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\obj\Debug\GetManhwa.pdb
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\bin\Debug\get_manhuagui.exe
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\bin\Debug\js\polyfills.js
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\bin\Debug\js\webp-hero.bundle.js
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\bin\Debug\GetManhwa.exe
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\bin\Debug\GetManhwa.pdb
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\obj\Debug\GetManhwa.csprojResolveAssemblyReference.cache
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\obj\Debug\GetManhwa.Form1.resources
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\obj\Debug\GetManhwa.Properties.Resources.resources
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetManhwa\obj\Debug\GetManhwa.csproj.GenerateResource.Cache

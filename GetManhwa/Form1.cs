@@ -229,7 +229,8 @@ namespace GetManhwa
         string RecordFileName = "RecordList.csv";
         private void Form1_Load(object sender, EventArgs e)
         {
-           
+            Comicbus_Func comm = new Comicbus_Func();
+            comm.TEST("https://comicbus.live/online/a-18838.html?ch=1");
             //※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※
             //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://i.hamreus.com/ps3/y/yiquanchaoren/%E7%AC%AC179%E8%AF%9D/0TIbMu.png.webp?e=1605310131&m=vzvYBcVxGKB-CsJzX5-XDQ");
             //request.Headers.Clear();
@@ -251,8 +252,6 @@ namespace GetManhwa
 
 
             DataTable dt = new DataTable();
-
-
             DataTable dtTemp = dt.Clone();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -353,7 +352,6 @@ namespace GetManhwa
             GetDefaultSavePath();//取得預設儲存路徑設定
 
 
-
             MessageBox.Show("感謝您的愛用!\r\n此軟體為程式軟體開發交流使用!\r\n請勿隨意散佈下載內容，以免觸法，謝謝。\r\n此軟體為C#語言開發，若對程式碼內容有興趣者請聯絡yusooyoun2@gmail.com;ㄚ僑\r\n", "使用說明", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
             wbSearch.Navigated += wbSearch_Navigated;
@@ -383,6 +381,39 @@ namespace GetManhwa
             //下載延遲
             cmbSleep_S.SelectedIndex = 2;
             cmbSleep_E.SelectedIndex = 3;
+
+            //Logo選擇
+            cmbLogo.SelectedIndex = 0;
+        }
+
+        //選Logo時 換瀏覽器連結
+        private void cmbLogo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (btnOpenClosePanel.ImageIndex == 0)//打開時
+            {
+                wbSearch.Navigate(GetLogoURL());
+            }
+            btnLogo.ImageIndex = cmbLogo.SelectedIndex;
+        }
+
+        private string GetLogoURL()
+        {
+            //https://www.comicbus.com/ https://tw.manhuagui.com/
+            string Logo = cmbLogo.SelectedItem.ToString().Trim().ToUpper();
+            string URL = "";
+            switch (Logo)
+            {
+                case "MANHUAGUI":
+                    URL= "https://tw.manhuagui.com/";
+                    break;
+                case "COMICBUS":
+                    URL = "https://www.comicbus.com/";
+                    break;
+                default:
+                    break;
+            }
+
+            return URL;
         }
 
 
@@ -681,7 +712,7 @@ namespace GetManhwa
                 Index = listWorkOption.Max(t => t.NO) + 1;
 
 
-            AddWork(Index, URL, DirPath, MainName, Name, PageCount, ScanWidth, ScanHeight, SaveProcessType);
+            AddWork(Index, URL, DirPath, MainName, Name, PageCount, ScanWidth, ScanHeight, SaveProcessType,"");
             ShowWorkList();//顯示項目
             //CheckWorkAndStartWork();//檢查是否有未執行的工作並執行工作ShowWorkList(取完所有清單後)
 
@@ -1068,35 +1099,51 @@ namespace GetManhwa
 
 
             string strURL_O = txtURL.Text.Trim();//http://tw.ikanman.com/comic/20555/  http://tw.manhuagui.com/comic/20275/
-            strURL_O = strURL_O.Replace("https:", "http:");
-            int NUM;
-            if (int.TryParse(strURL_O, out NUM))
-            {
-                strURL_O = string.Format("http://tw.ikanman.com/comic/{0}", NUM.ToString());
-                txtURL.Text = strURL_O;
-            }
-
-            string strNUM = "";
-            string strSUB_NUM = "";
-            string P = "";
-            GetNumURL(strURL_O, out strURL, out strNUM, out strSUB_NUM, out P);
-            txtURL.Text = strURL;
-
             DataTable dt = new DataTable();
             string Titlt;
-            dt = GetAllBookDataTable(strURL, "", out Titlt);
-            txtMainName.Text = Titlt;
 
 
-
-            if (strSUB_NUM.Trim() != "")
+            //愛看漫分流
+            if (strURL_O.IndexOf("ikanman") > -1 || strURL_O.IndexOf("manhuagui") > -1)
             {
-                var v = from t in dt.AsEnumerable()
-                        where t["URL"].ToString().Trim().ToUpper().IndexOf("/" + strSUB_NUM.Trim() + ".HTML") > -1
-                        select t;
-                if (v != null && v.Count() > 0)
-                    dt = v.CopyToDataTable();
+                strURL_O = strURL_O.Replace("https:", "http:");
+                int NUM;
+                if (int.TryParse(strURL_O, out NUM))
+                {
+                    strURL_O = string.Format("http://tw.ikanman.com/comic/{0}", NUM.ToString());
+                    txtURL.Text = strURL_O;
+                }
+
+
+                string strNUM = "";
+                string strSUB_NUM = "";
+                string P = "";
+                GetNumURL(strURL_O, out strURL, out strNUM, out strSUB_NUM, out P);
+                txtURL.Text = strURL;
+
+
+                dt = GetAllBookDataTable(strURL, "", out Titlt);
+                txtMainName.Text = Titlt;
+
+                if (strSUB_NUM.Trim() != "")
+                {
+                    var v = from t in dt.AsEnumerable()
+                            where t["URL"].ToString().Trim().ToUpper().IndexOf("/" + strSUB_NUM.Trim() + ".HTML") > -1
+                            select t;
+                    if (v != null && v.Count() > 0)
+                        dt = v.CopyToDataTable();
+                }
+            }//愛看漫分流結束
+             //無限漫畫分流
+            if (strURL_O.IndexOf("comicbus") > -1)
+            {
+                Comicbus_Func F = new Comicbus_Func();
+                dt = F.GetAllBookDataTable(strURL_O, out Titlt);
+                txtMainName.Text = Titlt;
+
             }
+
+
             gvList.DataSource = dt;
             if (gvList.Columns.Count > 4)
             {
@@ -1105,6 +1152,7 @@ namespace GetManhwa
                     gvList.Columns[i].Visible = false;
                 }
             }
+
             dtTemp = dt;
         }
 
@@ -1181,78 +1229,7 @@ namespace GetManhwa
                 }
             }
 
-            //strURL_out = "";
-            //strSUB_NUM = "";
-            //p = "";
-            //int NUM;
-            //strNUM = "";
-            //string Key_S = "http://tw.ikanman.com/comic/";
-            //string Key_E = "/";
-
-            //int Index01 = strURL.IndexOf(Key_S);
-            //if (Index01 > -1)
-            //{
-            //    int URLLength = strURL.Length - Index01 - Key_S.Length;
-            //    int Index02 = strURL.LastIndexOf(Key_E);
-            //    if (Index02 == strURL.Length - 1)
-            //        URLLength -= 1;
-            //    strNUM = strURL.Substring(Index01 + Key_S.Length, URLLength);
-
-            //    //http://tw.manhuagui.com/comic/17023/250853.html#p=2
-            //    int indexHtml = strNUM.ToUpper().Trim().IndexOf(".HTML");
-            //    if (indexHtml > -1)
-            //    {
-            //        p = strNUM.Substring(indexHtml).ToUpper().Replace(".HTML", "").Replace("#P=", "");
-            //        strNUM = strNUM.Substring(0, indexHtml);
-            //    }
-            //    strNUM = strNUM.ToUpper().Replace(".HTML", "");
-            //    if (strNUM.IndexOf("/") > -1)
-            //    {
-            //        string[] strS = strNUM.Split('/');
-            //        strNUM = strS[0];
-            //        strSUB_NUM = strS[1];
-            //    }
-            //    if (int.TryParse(strNUM, out NUM))
-            //    {
-            //        strURL_out = string.Format("{0}{1}/", Key_S, NUM.ToString());
-            //        strNUM = NUM.ToString();
-            //    }
-            //}
-            //else
-            //{
-            //    Key_S = "http://tw.manhuagui.com/comic/";
-            //    Key_E = "/";
-            //    int Index03 = strURL.IndexOf(Key_S);
-            //    if (Index03 > -1)
-            //    {
-            //        int URLLength = strURL.Length - Index03 - Key_S.Length;
-
-            //        int Index02 = strURL.LastIndexOf(Key_E);
-            //        if (Index02 == strURL.Length - 1)
-            //            URLLength -= 1;
-            //        strNUM = strURL.Substring(Index03 + Key_S.Length, URLLength);
-            //        int indexHtml = strNUM.ToUpper().Trim().IndexOf(".HTML");
-            //        if (indexHtml > -1)
-            //        {
-            //            p = strNUM.Substring(indexHtml).ToUpper().Replace(".HTML","").Replace("#P=", "");
-            //            strNUM = strNUM.Substring(0, indexHtml);
-            //        }
-            //        strNUM = strNUM.ToUpper().Replace(".HTML", "");
-            //        if (strNUM.IndexOf("/") > -1)
-            //        {
-            //            string[] strS = strNUM.Split('/');
-            //            strNUM = strS[0];
-            //            strSUB_NUM = strS[1];
-            //        }
-            //        if (int.TryParse(strNUM, out NUM))
-            //        {
-            //            strURL_out = string.Format("{0}{1}/", Key_S, NUM.ToString());
-            //            strNUM = NUM.ToString();
-
-            //        }
-            //    }
-
-            //}
+           
 
 
         }
@@ -1266,9 +1243,9 @@ namespace GetManhwa
             int Index1 = Contents.IndexOf("<ul style=\"display:block\">");
             int Index2 = Contents.IndexOf("<ul>");
             if (Index1 < Index2)
-                GetValue(Contents, out NewContents, out Value01, "<ul style=\"display:block\">", "</ul>");//取得內部所有資料
+                Comm_Func.GetValue(Contents, out NewContents, out Value01, "<ul style=\"display:block\">", "</ul>");//取得內部所有資料
             else
-                GetValue(Contents, out NewContents, out Value01, "<ul>", "</ul>");//取得內部所有資料
+                Comm_Func.GetValue(Contents, out NewContents, out Value01, "<ul>", "</ul>");//取得內部所有資料
 
 
 
@@ -1283,14 +1260,14 @@ namespace GetManhwa
             string URL;
             //取得連結
             string NewContents;//取得連結後的內容
-            GetValue(ul, out NewContents, out URL, "<a href=\"", "\"");
+            Comm_Func.GetValue(ul, out NewContents, out URL, "<a href=\"", "\"");
             //取得卷名
             string Name;//卷名
-            GetValue(NewContents, out Name, "<span>", "<i>");
+            Comm_Func.GetValue(NewContents, out Name, "<span>", "<i>");
             //取得頁數
             string PageCount;
             string NewContents2;//取得頁數後的內容
-            GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
+            Comm_Func.GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
 
 
             string[] OrgURLs = strURL_O.Split(new string[] { "/" }, StringSplitOptions.None);
@@ -1315,6 +1292,7 @@ namespace GetManhwa
 
             DataRow dr = dt.NewRow();
             dr["SEL"] = true;
+            dr["TYPE"] = "manhuagui";
             dr["Name"] = Name;
             dr["PageCount"] = PageCount.ToUpper().Trim().Replace("P", "");
             dr["URL"] = strURL + strSUB_NUM + ".html";//CombinURL;
@@ -1340,9 +1318,9 @@ namespace GetManhwa
 
 
             if (Index02 < Index01 || Index01 == -1)
-                GetValue(ul, out NewContents, out Name, "title=", " ");
+                Comm_Func.GetValue(ul, out NewContents, out Name, "title=", " ");
             else
-                GetValue(ul, out NewContents, out Name, "title=\"", "\"");
+                Comm_Func.GetValue(ul, out NewContents, out Name, "title=\"", "\"");
 
 
             if (Name.IndexOf("\"") > -1)
@@ -1350,7 +1328,7 @@ namespace GetManhwa
 
             }
             string URL;//取得連結
-            GetValue(NewContents, out NewContents, out URL, "href=\"", "\"");
+            Comm_Func.GetValue(NewContents, out NewContents, out URL, "href=\"", "\"");
             string strNUM = "";
             string strSUB_NUM = "";
             string P = "";
@@ -1359,11 +1337,11 @@ namespace GetManhwa
 
             //取得卷名
             if (Name.Trim() == "")
-                GetValue(NewContents, out Name, "<span>", "<i>");
+                Comm_Func.GetValue(NewContents, out Name, "<span>", "<i>");
             //取得頁數
             string PageCount;
             string NewContents2;//取得頁數後的內容
-            GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
+            Comm_Func.GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
 
 
             int intPageCount = 0;
@@ -1392,83 +1370,7 @@ namespace GetManhwa
 
         }
 
-        /// <summary>
-        /// 取得關鍵字串後的所有內容
-        /// </summary>
-        /// <param name="Contents">原內容</param>
-        /// <param name="NewContents">找到關鍵字之後下半部的內容</param>
-        /// <param name="key">關鍵字串</param>
-        private void GetKey(string Contents, out string NewContents, string key)
-        {
-            NewContents = Contents.Substring(Contents.ToUpper().IndexOf(key.ToUpper()) + key.Length);
-
-        }
-
-        /// <summary>
-        /// 取得Key內範圍的值
-        /// </summary>
-        /// <param name="Contents">原內容</param>
-        /// <param name="Value">取出的值</param>
-        /// <param name="keyS">開始的關鍵字串</param>
-        /// <param name="keyE">結束的關鍵字串</param>
-        private void GetValue(string Contents, out string Value, string keyS, string keyE)
-        {
-            Value = "";
-            if (Contents.ToUpper().IndexOf(keyS.ToUpper()) >= 0)
-            {
-                try
-                {
-                    int IndexS = Contents.ToUpper().IndexOf(keyS.ToUpper());
-                    string Temp1 = Contents.Substring(IndexS + keyS.Length);//後半
-                    int IndexE = Temp1.ToUpper().IndexOf(keyE.ToUpper());
-                    string Temp2 = Temp1.Substring(0, IndexE);//內容
-                    Value = Temp2;
-                }
-                catch (Exception ex)
-                {
-                    //throw;
-                }
-
-            }
-
-        }
-
-        /// <summary>
-        /// 取得Key內範圍的值，並回傳取完之後剩下的內容
-        /// </summary>
-        /// <param name="Contents">原內容</param>
-        /// <param name="NewContents">取完值之後下半部的內容</param>
-        /// <param name="Value">取出的值</param>
-        /// <param name="keyS">開始的關鍵字串</param>
-        /// <param name="keyE">結束的關鍵字串</param>
-        private void GetValue(string Contents, out string NewContents, out string Value, string keyS, string keyE)
-        {
-            Value = "";
-            NewContents = "";
-            if (Contents.ToUpper().IndexOf(keyS.ToUpper()) >= 0)
-            {
-                try
-                {
-                    int IndexS = Contents.ToUpper().IndexOf(keyS.ToUpper());
-                    string Temp1 = Contents.Substring(IndexS + keyS.Length);//後半
-                    int IndexE = Temp1.ToUpper().IndexOf(keyE.ToUpper());
-                    string Temp2 = Temp1.Substring(0, IndexE);//內容
-                    Value = Temp2;
-
-                    int IndexE2 = Contents.ToUpper().IndexOf(keyE.ToUpper(), IndexS) + keyE.Length;
-                    if (IndexE2 < Contents.Length - 1)
-                        NewContents = Contents.Substring(IndexE2);
-                    else
-                        NewContents = "";
-                }
-                catch (Exception ex)
-                {
-                    //throw;
-                }
-
-            }
-
-        }
+        
 
         List<WorkOption> listWorkOption = new List<WorkOption>();
         private void btnGetBySetting_Click(object sender, EventArgs e)
@@ -1576,7 +1478,8 @@ namespace GetManhwa
                 if (!int.TryParse(dr["PageCount"].ToString().Trim(), out PageCount)) continue;
                 string Name = dr["Name"].ToString().Trim();
                 string URL = dr["URL"].ToString().Trim();
-                AddWork(i, URL, DirPath, MainName, Name, PageCount, ScanWidth, ScanHeight, SaveProcessType);
+                string Type = dr["Type"].ToString().Trim();
+                AddWork(i, URL, DirPath, MainName, Name, PageCount, ScanWidth, ScanHeight, SaveProcessType, Type);
             }
             ShowWorkList();
             //CheckWorkAndStartWork();//檢查是否有未執行的工作並執行工作ShowWorkList(取完所有清單後)
@@ -1586,12 +1489,12 @@ namespace GetManhwa
         int backColorG = 255;
         int backColorB = 0;
 
-        private void AddWork(int Index, string URL, string DirPath, string MainName, string Name, int PageCount, int Width, int Height, int SaveProcessType)
+        private void AddWork(int Index, string URL, string DirPath, string MainName, string Name, int PageCount, int Width, int Height, int SaveProcessType, string Type)
         {
             string ID = DateTime.Now.ToString("MMddHHmmssfff") + random.Next(100, 999);
 
             //加入list
-            WorkOption workoption = new WorkOption(new Thread(DoDownLoadWorkobj), Index + 1, ID, 0, 0, null, URL, 1, PageCount, DirPath, MainName, string.Format("{0}[{1}p]", Name, PageCount), "就緒", Width, Height, SaveProcessType, 0, pbOne, 20);
+            WorkOption workoption = new WorkOption(new Thread(DoDownLoadWorkobj), Index + 1, ID, 0, 0, null, URL, 1, PageCount, DirPath, MainName, Name, string.Format("[{0}p]", PageCount), "就緒", Width, Height, SaveProcessType, 0, pbOne, 20,Type);
             listWorkOption.Add(workoption);
 
         }
@@ -1654,6 +1557,16 @@ namespace GetManhwa
                     workoption.labStatus.Padding = new Padding(0);
                     workoption.labStatus.Margin = new Padding(0);
                     workoption.FLP.Controls.Add(workoption.labStatus);
+
+                    //漫畫網
+                    workoption.labType = new Label();
+                    workoption.labType.Text = workoption.Type;
+                    workoption.labType.AutoSize = false;
+                    workoption.labType.Size = new Size(60, 23);
+                    workoption.labType.TextAlign = ContentAlignment.MiddleCenter;
+                    workoption.labType.Padding = new Padding(0);
+                    workoption.labType.Margin = new Padding(0);
+                    workoption.FLP.Controls.Add(workoption.labType);
 
                     //卷名及開啟資料夾
                     workoption.btnOpenDir = new Button();
@@ -1911,7 +1824,7 @@ namespace GetManhwa
                 WorkOption workoption = (WorkOption)V.ToList()[0];
 
 
-                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name; ;
+                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName;
                 if (!Directory.Exists(SubDirPath))
                     Directory.CreateDirectory(SubDirPath);
                 if (SubDirPath.Trim() != "")
@@ -2214,20 +2127,56 @@ namespace GetManhwa
                     return;
                 }
                 #endregion
+
+                #region 若是下載COMICBUS 若未取得總頁數要先取，並更換漫畫名稱
+
+                if (workoption.Type.Trim().ToUpper() == "COMICBUS" && workoption.PageCount == -1)
+                {
+                    #region 未取得總頁數 要去更新資料
+                    if (workoption.PageCount == -1 || workoption.listPageURL == null || workoption.listPageURL.Count < 1)//未取得總頁數 要去更新資料
+                    {
+                        List<string> listLinks = new List<string>();
+                        Comicbus_Func comicbus_Func = new Comicbus_Func();
+                        Comicbus_Option comicbus_Option = new Comicbus_Option(workoption.URL);
+                        //取得總頁數跟所有圖片連結
+                        comicbus_Func.GetPageInfo(ref comicbus_Option, true, true);
+                        workoption.PageCount = comicbus_Option.PageCount;
+                        workoption.listPageURL = comicbus_Option.listPic;
+                        listLinks = new List<string>(comicbus_Option.listPic);
+                        workoption.PageCountName = string.Format("[{0}p]", workoption.PageCount);
+                    }
+                    #endregion
+                } 
+                #endregion
+
+
                 string strFinalURL = string.Format("{0}{1}{2}", workoption.URL.Trim(), "#p=", workoption.PageIndex);
-                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name;//DirPath + dr["Name"].ToString().Trim();
-                string SubDirPath_ZIP = workoption.DirPath + workoption.MainName + workoption.Name + ".zip";
-                string SubDirPath_ZIP2 = workoption.DirPath + workoption.MainName + workoption.Name + ".rar";
-                string SubDirPath_ZIP3 = workoption.DirPath + workoption.MainName + workoption.Name + ".7z";
+                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName;//DirPath + dr["Name"].ToString().Trim();
+                string SubDirPath_ZIP = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName + ".zip";
+                string SubDirPath_ZIP2 = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName + ".rar";
+                string SubDirPath_ZIP3 = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName + ".7z";
 
                 #region 判斷是否已下載
                 bool IsDO = true;
-                if (Directory.Exists(SubDirPath))
+                //有壓縮檔時 不下載
+                if (File.Exists(SubDirPath_ZIP) || File.Exists(SubDirPath_ZIP2) || File.Exists(SubDirPath_ZIP3))
+                {
+                    IsDO = false;
+                    workoption.PageIndex = workoption.PageCount;
+                    //完成工作
+                    CompleteDownLoad(ref workoption);
+                    return;
+                }
+                else if (Directory.Exists(SubDirPath))
                 {
                     //有壓縮檔時 不下載
                     if (File.Exists(SubDirPath_ZIP) || File.Exists(SubDirPath_ZIP2) || File.Exists(SubDirPath_ZIP3))
                     {
                         IsDO = false;
+                        workoption.PageIndex = workoption.PageCount;
+                        //完成工作
+                        CompleteDownLoad(ref workoption);
+                        return;
                     }
                     else
                     {
@@ -2246,31 +2195,12 @@ namespace GetManhwa
                         }
                         //已完成工作時
                         #region 已完成工作時
-                        if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount) && !IsDO)
+                        if ((workoption.PageCount == 0 || (workoption.PageCount!=-1 && workoption.PageIndex > workoption.PageCount)) && !IsDO)
                         {
                             workoption.PageIndex = workoption.PageCount;
 
-                            //將執行序停止並釋放
-                            if (workoption.thread != null && workoption.thread.IsAlive)
-                            {
-                                workoption.thread.Abort();
-                                workoption.thread.Join();
-                            }
-                            workoption.IsWork = 0;//無執行
-                            workoption.Status = 2;//已完成
-                            workoption.Message = "完成下載";
-                            if (!chkShowComplete.Checked)//如果不Show完成下載
-                                workoption.FLP.Visible = false;
-
-                            if (chkRecord.Checked)
-                            {
-                                string strNUM = "";
-                                string strSUB_NUM = "";
-                                string P = "";
-                                string strURL = "";
-                                GetNumURL(workoption.URL, out strURL, out strNUM, out strSUB_NUM, out P);
-                                AddRecord(strURL, strNUM, workoption.Name, strSUB_NUM);
-                            }
+                            //完成工作
+                            CompleteDownLoad(ref workoption);
                             CheckWorkAndStartWork();//更新狀態(完成下載)
                             IsDO = false;
                             return;
@@ -2287,136 +2217,223 @@ namespace GetManhwa
                 if (IsDO)//要執行下載時
                 {
                     workoption.Message = "下載第" + workoption.PageIndex + "頁";
-                    List<string> listLinks = new List<string>();
-                    if (workoption.listPageURL != null && workoption.listPageURL.Count > 0)
-                        listLinks = workoption.listPageURL;
 
-                    if (listLinks == null || listLinks.Count < 1)
+
+                    //工作是manhuagui時
+                    #region 工作是manhuagui時
+                    if (workoption.Type == "manhuagui")
                     {
-                        //透過get_manhuagui.exe
-                        string Comm = string.Format("\"{0}\" \"{1}\"", Directory.GetCurrentDirectory() + "\\get_manhuagui.exe", strFinalURL);
-                        string Result = RunProcess(Comm);//取得結果
-                        int Index00 = Result.LastIndexOf("#");//內容有#時
-                        if (Index00 > -1)
-                        {
-                            #region 使用get_manhuagui.exe給的連結
-                            //取得每一個內頁圖片連結
-                            //Result = Result.Substring(Index00 + 1);
-                            //string[] Links = Result.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        List<string> listLinks = new List<string>();
+                        if (workoption.listPageURL != null && workoption.listPageURL.Count > 0)
+                            listLinks = workoption.listPageURL;
 
+                        if (listLinks == null || listLinks.Count < 1)
+                        {
+                            #region 透過get_manhuagui.exe取得連結
+                            ////透過get_manhuagui.exe
+                            //string Comm = string.Format("\"{0}\" \"{1}\"", Directory.GetCurrentDirectory() + "\\get_manhuagui.exe", strFinalURL);
+                            //string Result = RunProcess(Comm);//取得結果
+                            //int Index00 = Result.LastIndexOf("#");//內容有#時
+                            //if (Index00 > -1)
+                            //{
+                            //    #region 使用get_manhuagui.exe給的連結
+                            //    //取得每一個內頁圖片連結
+                            //    //Result = Result.Substring(Index00 + 1);
+                            //    //string[] Links = Result.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                            //    #endregion
+                            //    //2020/11/11 使用新的get_manhuagui.exe
+                            //    //自行解JSON結果字串
+                            //    listLinks = get_manhuagui_URL(Result).ToList();
+                            //    workoption.listPageURL = listLinks;
+                            //}///內容有#時 結束
+                            //else//內容沒有有#時 錯誤
+                            //{
+                            //    //將執行序停止並釋放
+                            //    if (workoption.thread != null && workoption.thread.IsAlive)
+                            //    {
+                            //        workoption.thread.Abort();
+                            //        workoption.thread.Join();
+                            //    }
+                            //    workoption.IsWork = 0;//無執行
+                            //    workoption.Status = 4;//錯誤停止
+                            //    workoption.Message = "停止，get_manhuagui.exe錯誤";
+                            //    CheckWorkAndStartWork();//更新狀態(下載內頁圖片 Exception錯誤)
+                            //    return;
+                            //} 
                             #endregion
-                            //2020/11/11 使用新的get_manhuagui.exe
-                            //自行解JSON結果字串
-                            listLinks = get_manhuagui_URL(Result).ToList();
-                            workoption.listPageURL = listLinks;
-                        }///內容有#時 結束
-                        else//內容沒有有#時 錯誤
-                        {
-                            //將執行序停止並釋放
-                            if (workoption.thread != null && workoption.thread.IsAlive)
-                            {
-                                workoption.thread.Abort();
-                                workoption.thread.Join();
-                            }
-                            workoption.IsWork = 0;//無執行
-                            workoption.Status = 4;//錯誤停止
-                            workoption.Message = "停止，get_manhuagui.exe錯誤";
-                            CheckWorkAndStartWork();//更新狀態(下載內頁圖片 Exception錯誤)
-                            return;
+
+                            //使用精簡版類別庫
+                            Manhuagui_Func manhuagui_Func = new Manhuagui_Func();
+                            List<string> listURL = new List<string>();
+                            string strXML = manhuagui_Func.GetManhuaguiURL(strFinalURL, out listURL);
+                            workoption.listPageURL = listURL;
                         }
-                    }
 
-                    //下載每筆內頁
-                    for (int i = 0; i < listLinks.Count; i++)
-                    {
-                        //跳過先前已下載的頁數
-                        if (i + 1 < workoption.PageIndex)
-                            continue;
-                        if (!CheckPageExist(workoption, SubDirPath))//已有該檔跳過
-                            continue;
-                        string strSRC = listLinks[i].Trim();
-                        //非連結，跳過
-                        if (strSRC.ToUpper().IndexOf("HTTP") < 0)
-                            continue;
-                        workoption.Message = string.Format("下載第{0}頁", workoption.PageIndex + 1);
-
-                        //CheckWorkAndStartWork();//更新狀態
-                        //直接下載
-                        DownLoadLink(ref workoption, strSRC);
-
-                        workoption.RetryCnt = 0;//重試歸零
-
-                        //是否需要延遲下載，是的話隨機暫停時數
-                        if (ckbIsSleep.Checked)
+                        //下載每筆內頁
+                        for (int i = 0; i < listLinks.Count; i++)
                         {
-                            Random random = new Random();
-                            int Sleep_S = 10, Sleep_E = 12;
-                            if (!int.TryParse(cmbSleep_S.Text.Trim(), out Sleep_S))
-                                Sleep_S = 10;
-                            if (!int.TryParse(cmbSleep_E.Text.Trim(), out Sleep_E))
-                                Sleep_E = 12;
-                            if (Sleep_E < Sleep_S)
+                            //跳過先前已下載的頁數
+                            if (i + 1 < workoption.PageIndex)
+                                continue;
+                            if (!CheckPageExist(workoption, SubDirPath))//已有該檔跳過
+                                continue;
+                            string strSRC = listLinks[i].Trim();
+                            //非連結，跳過
+                            if (strSRC.ToUpper().IndexOf("HTTP") < 0)
+                                continue;
+                            workoption.Message = string.Format("下載第{0}頁", workoption.PageIndex + 1);
+
+                            //CheckWorkAndStartWork();//更新狀態
+                            //直接下載
+                            DownLoadLink(ref workoption, strSRC);
+
+                            workoption.RetryCnt = 0;//重試歸零
+
+                            //是否需要延遲下載，是的話隨機暫停時數
+                            if (ckbIsSleep.Checked)
                             {
-                                Sleep_S = 10;
-                                Sleep_E = 12;
+                                Random random = new Random();
+                                int Sleep_S = 10, Sleep_E = 12;
+                                if (!int.TryParse(cmbSleep_S.Text.Trim(), out Sleep_S))
+                                    Sleep_S = 10;
+                                if (!int.TryParse(cmbSleep_E.Text.Trim(), out Sleep_E))
+                                    Sleep_E = 12;
+                                if (Sleep_E < Sleep_S)
+                                {
+                                    Sleep_S = 10;
+                                    Sleep_E = 12;
+                                }
+                                int intSleep = random.Next(Sleep_S, Sleep_E);
+                                await Task.Delay(intSleep * 1000);
+
+                            }//是否需要延遲下載 結束
+
+                            workoption.PageIndex++;//頁碼增加
+                                                   //修改在迴圈跑完判斷是否完成
+                            if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
+                            {
+                                break;
                             }
-                            int intSleep = random.Next(Sleep_S, Sleep_E);
-                            await Task.Delay(intSleep * 1000);
+                            //只跑1筆，剩下的使用遞迴方式繼續下載
+                            break;
 
-                        }//是否需要延遲下載 結束
+                        }//下載每筆內頁 結束
 
-                        workoption.PageIndex++;//頁碼增加
-                        //修改在迴圈跑完判斷是否完成
+                        //已完成工作時
+                        #region 已完成工作時
                         if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
                         {
-                            break;
+                            workoption.PageIndex = workoption.PageCount;
+
+                            //完成工作
+                            CompleteDownLoad(ref workoption);
+                           
+                            CheckWorkAndStartWork();//更新狀態(完成下載)
+                            return;
                         }
-                        //只跑1筆，剩下的使用遞迴方式繼續下載
-                        break;
+                        #endregion
 
-                    }//下載每筆內頁 結束
+                        //未完成工作時，報錯，進行下一個工作
+                        //CheckWorkAndStartWork();//更新狀態
+                        DoDownLoadWork(workoption);//進行下一頁工作
+                                                   //workoption.thread.Start(new object[] { workoption });//執行 執行緒
+                                                   //ShowWorkList(false);
+                                                   //DoDownLoadWorkobj(new object[] { workoption });
 
-                    //已完成工作時
-                    #region 已完成工作時
-                    if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
+
+                    }//工作是manhuagui 結束 
+                    #endregion
+                    #region 工作是comicbus時
+                    else if (workoption.Type.Trim().ToUpper() == "COMICBUS")//工作是comicbus
                     {
-                        workoption.PageIndex = workoption.PageCount;
-
-                        //將執行序停止並釋放
-                        if (workoption.thread != null && workoption.thread.IsAlive)
+                        List<string> listLinks = new List<string>();
+                        if (workoption.listPageURL != null && workoption.listPageURL.Count > 0)
+                            listLinks = workoption.listPageURL;
+                        #region 未取得總頁數 要去更新資料
+                        if (workoption.PageCount == -1 || workoption.listPageURL == null || workoption.listPageURL.Count < 1)//未取得總頁數 要去更新資料
                         {
-                            workoption.thread.Abort();
-                            workoption.thread.Join();
+                            Comicbus_Func comicbus_Func = new Comicbus_Func();
+                            Comicbus_Option comicbus_Option = new Comicbus_Option(workoption.URL);
+                            //取得總頁數跟所有圖片連結
+                            comicbus_Func.GetPageInfo(ref comicbus_Option, true, true);
+                            workoption.PageCount = comicbus_Option.PageCount;
+                            workoption.listPageURL = comicbus_Option.listPic;
+                            listLinks = new List<string>(comicbus_Option.listPic);
                         }
-                        workoption.IsWork = 0;//無執行
-                        workoption.Status = 2;//已完成
-                        workoption.Message = "完成下載";
-                        if (!chkShowComplete.Checked)//如果不Show完成下載
-                            workoption.FLP.Visible = false;
+                        #endregion
 
-                        if (chkRecord.Checked)
+                        //下載每筆內頁
+                        #region 下載每筆內頁
+                        for (int i = 0; i < listLinks.Count; i++)
                         {
-                            string strNUM = "";
-                            string strSUB_NUM = "";
-                            string P = "";
-                            string strURL = "";
-                            GetNumURL(workoption.URL, out strURL, out strNUM, out strSUB_NUM, out P);
-                            AddRecord(strURL, strNUM, workoption.Name, strSUB_NUM);
+                            //跳過先前已下載的頁數
+                            if (i + 1 < workoption.PageIndex)
+                                continue;
+                            if (!CheckPageExist(workoption, SubDirPath))//已有該檔跳過
+                                continue;
+                            string strSRC = listLinks[i].Trim();
+                            //非連結，跳過
+                            if (strSRC.ToUpper().IndexOf("HTTP") < 0)
+                                continue;
+                            workoption.Message = string.Format("下載第{0}頁", workoption.PageIndex + 1);
+
+
+                            //直接下載
+                            DownLoadLink(ref workoption, strSRC);
+
+                            workoption.RetryCnt = 0;//重試歸零
+
+                            //是否需要延遲下載，是的話隨機暫停時數
+                            if (ckbIsSleep.Checked)
+                            {
+                                Random random = new Random();
+                                int Sleep_S = 10, Sleep_E = 12;
+                                if (!int.TryParse(cmbSleep_S.Text.Trim(), out Sleep_S))
+                                    Sleep_S = 10;
+                                if (!int.TryParse(cmbSleep_E.Text.Trim(), out Sleep_E))
+                                    Sleep_E = 12;
+                                if (Sleep_E < Sleep_S)
+                                {
+                                    Sleep_S = 10;
+                                    Sleep_E = 12;
+                                }
+                                int intSleep = random.Next(Sleep_S, Sleep_E);
+                                await Task.Delay(intSleep * 1000);
+
+                            }//是否需要延遲下載 結束
+
+                            workoption.PageIndex++;//頁碼增加
+                                                   //修改在迴圈跑完判斷是否完成
+                            if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
+                            {
+                                break;
+                            }
+                            //只跑1筆，剩下的使用遞迴方式繼續下載
+                            break;
+
+                        }//下載每筆內頁 結束 
+                        #endregion
+
+                        //已完成工作時
+                        #region 已完成工作時
+                        if ((workoption.PageCount == 0 || workoption.PageIndex > workoption.PageCount))
+                        {
+                            workoption.PageIndex = workoption.PageCount;
+
+                            //完成工作
+                            CompleteDownLoad(ref workoption);
+                            CheckWorkAndStartWork();//更新狀態(完成下載)
+                            return;
                         }
-                        CheckWorkAndStartWork();//更新狀態(完成下載)
-                        return;
-                    }
+                        #endregion
+                        //未完成工作時，報錯，進行下一個工作
+                        DoDownLoadWork(workoption);//進行下一頁工作
+                    }//工作是comicbus 結束 
                     #endregion
 
-                    //未完成工作時，報錯，進行下一個工作
-                    //CheckWorkAndStartWork();//更新狀態
-                    DoDownLoadWork(workoption);//進行下一頁工作
-                                               //workoption.thread.Start(new object[] { workoption });//執行 執行緒
-                                               //ShowWorkList(false);
-                                               //DoDownLoadWorkobj(new object[] { workoption });
-
-
                 }//要執行下載時 結束
+                
 
             }
             catch (Exception ex)
@@ -2436,24 +2453,60 @@ namespace GetManhwa
             //}//跨執行緒結束
         }
 
+        private string CompleteDownLoad(ref WorkOption workoption)
+        {
+            string strErrorMessage = "";
+            try
+            {
+                //將執行序停止並釋放
+                if (workoption.thread != null && workoption.thread.IsAlive)
+                {
+                    workoption.thread.Abort();
+                    workoption.thread.Join();
+                }
+                workoption.IsWork = 0;//無執行
+                workoption.Status = 2;//已完成
+                workoption.Message = "完成下載";
+                if (!chkShowComplete.Checked)//如果不Show完成下載
+                    workoption.FLP.Visible = false;
+
+                if (chkRecord.Checked)
+                {
+                    string strNUM = "";
+                    string strSUB_NUM = "";
+                    string P = "";
+                    string strURL = "";
+                    GetNumURL(workoption.URL, out strURL, out strNUM, out strSUB_NUM, out P);
+                    AddRecord(strURL, strNUM, workoption.Name + workoption.PageCountName, strSUB_NUM);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                strErrorMessage = ex.Message + ex.StackTrace;
+            }
+
+            return strErrorMessage;
+        }
+
         private string[] get_manhuagui_URL(string Result)
         {
             List<string> listURL = new List<string>();
-            GetValue(Result, out Result, "{", "#");
+            Comm_Func.GetValue(Result, out Result, "{", "#");
             string files = "";
             string Content2 = "";
-            GetValue(Result, out Content2, out files, "\"files\": [", "]");
+            Comm_Func.GetValue(Result, out Content2, out files, "\"files\": [", "]");
             string path = "";
             //GetValue(Content2, out path, "\"path\": \"", "\"");
             //path = path.Substring(0, path.Length - 1);//去掉最後一個/
             //string Key1 = path.Substring(0,path.LastIndexOf("/"));
             //string Key2 = path.Substring(path.LastIndexOf("/")+1);
             //path = Key1+HttpUtility.UrlEncode(Key2)+"/";
-            GetValue(Content2, out path, "\"path_encode\": \"", "\"");
+            Comm_Func.GetValue(Content2, out path, "\"path_encode\": \"", "\"");
             string strE = "";
-            GetValue(Content2, out strE, "\"e\":", ",");
+            Comm_Func.GetValue(Content2, out strE, "\"e\":", ",");
             string strM = "";
-            GetValue(Content2, out strM, "\"m\": \"", "\"");
+            Comm_Func.GetValue(Content2, out strM, "\"m\": \"", "\"");
             
             files = files.Replace("\"", "").Replace(",", "");
             string[] strFiles = files.Split(new string[] {"\r\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -2508,19 +2561,41 @@ namespace GetManhwa
             {
                 //下載
                 string FE = ".jpg";
-                int Index01 = strSRC.LastIndexOf(".");
-                int Index02 = strSRC.IndexOf("?", Index01);
-                if (Index02 > -1)
-                    FE = strSRC.Substring(Index01, Index02 - Index01);//副檔名
-                else
-                    FE = strSRC.Substring(Index01);//副檔名
-                if (FE.Length > 4)
-                    FE = ".jpg";
-
-                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name;
+                #region 建立存放的資料夾
+                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName;
                 string FilePath = SubDirPath + "\\" + workoption.PageIndex.ToString().PadLeft(3, '0') + FE;//組合檔名
                 if (!Directory.Exists(SubDirPath + "\\"))
                     Directory.CreateDirectory(SubDirPath + "\\");
+
+                #endregion
+                //漫畫櫃的下載方式
+                if (workoption.Type.Trim().ToUpper() == "MANHUAGUI")
+                {
+                    int Index01 = strSRC.LastIndexOf(".");
+                    int Index02 = strSRC.IndexOf("?", Index01);
+                    if (Index02 > -1)
+                        FE = strSRC.Substring(Index01, Index02 - Index01);//副檔名
+                    else
+                        FE = strSRC.Substring(Index01);//副檔名
+                    if (FE.Length > 4)
+                        FE = ".jpg";
+
+                    
+
+                    
+                }//漫畫櫃的下載方式 結束
+                if (workoption.Type.Trim().ToUpper() == "COMICBUS")//無限漫畫的下載方式
+                {
+                    //不用特別一張一張轉換
+                    //Comicbus_Func comicbus_Func = new Comicbus_Func();
+                    //string PictureURL = "";
+                    //comicbus_Func.GetPagePicture(strSRC,out PictureURL);
+
+                    string PictureURL = strSRC;
+                    if (PictureURL.Trim().IndexOf("8comic.com") > -1 && PictureURL.Trim().IndexOf("http") < 0)////img8.8comic.com/3/18838/1/001_8NK.jpg
+                        PictureURL = "https:" + PictureURL;
+                        strSRC = PictureURL;
+                }//無限漫畫的下載方式 結束
 
                 string ErrorMessage = DoDownLoadPic_ByWebRequest(ref workoption, strSRC, FilePath, FE);
                 if (ErrorMessage.Trim() != "")//有錯誤時
@@ -2548,11 +2623,11 @@ namespace GetManhwa
                         return;
                     }
                 }
-                    
+
             }
             catch (Exception ex)
             {
-                
+
                 //將執行序停止並釋放
                 if (workoption.thread != null && workoption.thread.IsAlive)
                 {
@@ -2598,10 +2673,10 @@ namespace GetManhwa
                     return;
                 }
                 string strFinalURL = string.Format("{0}{1}{2}", workoption.URL.Replace("http:","https:").Trim(), "#p=", workoption.PageIndex);
-                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name;//DirPath + dr["Name"].ToString().Trim();
-                string SubDirPath_ZIP = workoption.DirPath + workoption.MainName + workoption.Name + ".zip";
-                string SubDirPath_ZIP2 = workoption.DirPath + workoption.MainName + workoption.Name + ".rar";
-                string SubDirPath_ZIP3 = workoption.DirPath + workoption.MainName + workoption.Name + ".7z";
+                string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName;//DirPath + dr["Name"].ToString().Trim();
+                string SubDirPath_ZIP = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName + ".zip";
+                string SubDirPath_ZIP2 = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName + ".rar";
+                string SubDirPath_ZIP3 = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName + ".7z";
 
                 #region 判斷是否已下載
                 bool IsDO = true;
@@ -2844,7 +2919,7 @@ namespace GetManhwa
                     string strSRC = "";
                     if (MANGABOX.Trim() != "")
                     {
-                        GetValue(MANGABOX, out strSRC, "src=\"", "\"");
+                        Comm_Func.GetValue(MANGABOX, out strSRC, "src=\"", "\"");
                     }
                     strSRC = HttpUtility.UrlDecode(strSRC);//取得SRC
 
@@ -2867,7 +2942,7 @@ namespace GetManhwa
                         if (FE.Length > 4)
                             FE = ".jpg";
 
-                        string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name;
+                        string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName;
                         string FilePath = SubDirPath + "\\" + workoption.PageIndex.ToString().PadLeft(3, '0') + FE;//組合檔名
                         if (!Directory.Exists(SubDirPath + "\\"))
                             Directory.CreateDirectory(SubDirPath + "\\");
@@ -3011,7 +3086,7 @@ namespace GetManhwa
                         FE = ".jpg";
                     try
                     {
-                        string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name;
+                        string SubDirPath = workoption.DirPath + workoption.MainName + workoption.Name + workoption.PageCountName;
                         string FilePath = SubDirPath + "\\" + workoption.PageIndex.ToString().PadLeft(3, '0') + FE;//組合檔名
                         if (!Directory.Exists(SubDirPath + "\\"))
                             Directory.CreateDirectory(SubDirPath + "\\");
@@ -3492,23 +3567,34 @@ namespace GetManhwa
 
                 WB.Stop();
                 WB.Dispose();
-                MessageBox.Show(ex.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);//狀態列
+                MessageBox.Show(ex.Message, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error,MessageBoxDefaultButton.Button1,MessageBoxOptions.ServiceNotification);//狀態列
                 return;
             }
         }
 
         private void btnAllSEL_Click(object sender, EventArgs e)//全選
         {
-            DataTable dt = (DataTable)gvList.DataSource;
-            dt.AsEnumerable().ToList().ForEach(X => X["SEL"] = "True");
-            gvList.DataSource = dt;
+            Thread threadAllSEL = new Thread(() => {
+                DataTable dt = (DataTable)gvList.DataSource;
+                dt.AsEnumerable().ToList().ForEach(X => X["SEL"] = "True");
+                gvList.DataSource = dt;
+            });
+
+            threadAllSEL.Start();
+            
         }
         private void btnUnSEL_Click(object sender, EventArgs e)//反選
         {
-            DataTable dt = (DataTable)gvList.DataSource;
-            dt.AsEnumerable().ToList().ForEach(X=>X["SEL"] = X["SEL"].ToString().Trim().ToUpper() == "TRUE" ? "False" : "True");
-            gvList.DataSource = dt;
+            Thread threadUnSEL = new Thread(()=> {
+                DataTable dt = (DataTable)gvList.DataSource;
+                dt.AsEnumerable().ToList().ForEach(X => X["SEL"] = X["SEL"].ToString().Trim().ToUpper() == "TRUE" ? "False" : "True");
+                gvList.DataSource = dt;
+            });
+
+            threadUnSEL.Start();
         }
+
+        
 
         private void btnBrowser_Click(object sender, EventArgs e)//選擇預設儲存路徑
         {
@@ -3531,12 +3617,12 @@ namespace GetManhwa
                 else
                     g.SetValue("IsUseDefaultSavePath", "0");
 
-                MessageBox.Show("儲存成功!", "完成", MessageBoxButtons.OK, MessageBoxIcon.None);//狀態列
+                MessageBox.Show("儲存成功!", "完成", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);//狀態列
             }
             catch (Exception ex)
             {
 
-                MessageBox.Show("儲存失敗!", "失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);//狀態列
+                MessageBox.Show("儲存失敗!", "失敗", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);//狀態列
             }
 
         }
@@ -3904,8 +3990,9 @@ namespace GetManhwa
             }
             else//關閉時 打開
             {
-                if(wbSearch.Url==null)
-                    wbSearch.Navigate("https://www.manhuagui.com/");//https://tw.manhuagui.com/
+
+                wbSearch.Navigate(GetLogoURL()); //https://www.comicbus.com/ https://tw.manhuagui.com/ https://www.manhuagui.com/
+                
                 this.Width = (int)(790 + FormWidthLog);
                 tlpBase.ColumnStyles[1].Width = 100;
                 tlpBase.ColumnStyles[1].SizeType = SizeType.Percent;
@@ -3916,6 +4003,7 @@ namespace GetManhwa
             }
         }
 
+  
         private void btnAddWork_Click(object sender, EventArgs e)
         {
             string strURL = wbSearch.Url.ToString();
@@ -4547,14 +4635,14 @@ namespace GetManhwa
             string URL;
             //取得連結
             string NewContents;//取得連結後的內容
-            GetValue(ul, out NewContents, out URL, "<a href=\"", "\"");
+            Comm_Func.GetValue(ul, out NewContents, out URL, "<a href=\"", "\"");
             //取得卷名
             string Name;//卷名
-            GetValue(NewContents, out Name, "<span>", "<i>");
+            Comm_Func.GetValue(NewContents, out Name, "<span>", "<i>");
             //取得頁數
             string PageCount;
             string NewContents2;//取得頁數後的內容
-            GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
+            Comm_Func.GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
 
             string OrgURL = strURL.Trim();
             string[] OrgURLs = OrgURL.Split(new string[] { "/" }, StringSplitOptions.None);
@@ -4595,19 +4683,19 @@ namespace GetManhwa
             string NewContents;//取得連結後的內容
 
             string Name;//卷名
-            GetValue(ul, out NewContents, out Name, "title=\"", "\"");
+            Comm_Func.GetValue(ul, out NewContents, out Name, "title=\"", "\"");
             if (Name.Trim() == "")
-                GetValue(ul, out NewContents, out Name, "title=", " ");
+                Comm_Func.GetValue(ul, out NewContents, out Name, "title=", " ");
 
             string URL;//取得連結
-            GetValue(NewContents, out NewContents, out URL, "href=\"", "\"");
+            Comm_Func.GetValue(NewContents, out NewContents, out URL, "href=\"", "\"");
             //取得卷名
             if (Name.Trim() == "")
-                GetValue(NewContents, out Name, "<span>", "<i>");
+                Comm_Func.GetValue(NewContents, out Name, "<span>", "<i>");
             //取得頁數
             string PageCount;
             string NewContents2;//取得頁數後的內容
-            GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
+            Comm_Func.GetValue(NewContents, out NewContents2, out PageCount, "<i>", "</i>");
 
             string OrgURL = strURL.Trim();
             string[] OrgURLs = OrgURL.Split(new string[] { "/" }, StringSplitOptions.None);
@@ -4642,39 +4730,39 @@ namespace GetManhwa
         private string GetTitle(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<div class=\"book-title\">", "</div>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<div class=\"book-title\">", "</div>");
 
-            GetValue(Value01, out Value02, "<h1>", "</h1>");
+            Comm_Func.GetValue(Value01, out Value02, "<h1>", "</h1>");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetYEAR(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<strong>出品年代：</strong>", "</span>");
-            GetValue(Value01, out Value02, ">", "</a>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<strong>出品年代：</strong>", "</span>");
+            Comm_Func.GetValue(Value01, out Value02, ">", "</a>");
             return Value02;
         }
         private string GetZONE(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<strong>漫畫地區：</strong>", "</span>");
-            GetValue(Value01, out Value02, ">", "</a>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<strong>漫畫地區：</strong>", "</span>");
+            Comm_Func.GetValue(Value01, out Value02, ">", "</a>");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetLETTER(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<strong>字母索引：</strong>", "</span>");
-            GetValue(Value01, out Value02, ">", "</a>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<strong>字母索引：</strong>", "</span>");
+            Comm_Func.GetValue(Value01, out Value02, ">", "</a>");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetTYPE_SUM(string Contents, out string NewContents)
         {
             string Value01;
-            GetValue(Contents, out NewContents, out Value01, "<strong>漫畫劇情：</strong>", "</span>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<strong>漫畫劇情：</strong>", "</span>");
 
             string RESULT = "";
             GetTYPETag(Value01, ref RESULT);
@@ -4689,7 +4777,7 @@ namespace GetManhwa
 
             string Value02;
             string NewContents;
-            GetValue(Contents, out NewContents, out Value02, ">", "</a>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value02, ">", "</a>");
             RESULT += string.Format("{0}{1}", RESULT.Trim() == "" ? "" : "|", Value02);
             GetTYPETag(NewContents, ref RESULT);
 
@@ -4698,22 +4786,22 @@ namespace GetManhwa
         private string GetWRITER(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<strong>漫畫作者：</strong>", "</span>");
-            GetValue(Value01, out Value02, ">", "</a>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<strong>漫畫作者：</strong>", "</span>");
+            Comm_Func.GetValue(Value01, out Value02, ">", "</a>");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetNAME2(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<strong>漫畫別名：</strong>", "</span>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<strong>漫畫別名：</strong>", "</span>");
             if (Value01.IndexOf("暫無") > -1)
             {
                 Value02 = Value01;
             }
             else
             {
-                GetValue(Value01, out Value02, ">", "</a>");
+                Comm_Func.GetValue(Value01, out Value02, ">", "</a>");
             }
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
@@ -4721,41 +4809,41 @@ namespace GetManhwa
         private string GetSTATUS(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<strong>漫畫狀態：</strong>", "span>");
-            GetValue(Value01, out Value02, ">", "</");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<strong>漫畫狀態：</strong>", "span>");
+            Comm_Func.GetValue(Value01, out Value02, ">", "</");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetUPDATE_TIME(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "最近于", "span>");
-            GetValue(Value01, out Value02, ">", "</");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "最近于", "span>");
+            Comm_Func.GetValue(Value01, out Value02, ">", "</");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetNEW_PAGE(string Contents, out string NewContents)//格式變化太多 不採用
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "更新至", "a>");
-            GetValue(Value01, out Value02, ">", "</");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "更新至", "a>");
+            Comm_Func.GetValue(Value01, out Value02, ">", "</");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetPICTURE(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<p class=\"hcover\">", "alt=");
-            GetValue(Value01, out Value02, "\"", "\"");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<p class=\"hcover\">", "alt=");
+            Comm_Func.GetValue(Value01, out Value02, "\"", "\"");
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
         }
         private string GetDOCUMENT(string Contents, out string NewContents)
         {
             string Value01, Value02;
-            GetValue(Contents, out NewContents, out Value01, "<div id=\"intro-cut\"", "/div>");
+            Comm_Func.GetValue(Contents, out NewContents, out Value01, "<div id=\"intro-cut\"", "/div>");
 
-            GetValue(Value01, out Value02, ">", "<");
+            Comm_Func.GetValue(Value01, out Value02, ">", "<");
 
             Value02 = Value02.Replace("\"", "＂").Replace(",", "，");
             return Value02;
@@ -4790,6 +4878,7 @@ namespace GetManhwa
 
                 DataTable dt = new DataTable();
                 dt.Columns.Add("SEL");//選取狀態
+                dt.Columns.Add("Type");//漫畫站
                 dt.Columns.Add("Name");//卷(話)名稱
                 dt.Columns.Add("PageCount");//頁數
                 dt.Columns.Add("URL");//卷(話)連結
@@ -4835,7 +4924,7 @@ namespace GetManhwa
                 string Key2 = "</div>";
 
                 //string titlt;
-                GetValue(Contents, out NewContents, out titlt, "<h1>", "</h1>");
+                Comm_Func.GetValue(Contents, out NewContents, out titlt, "<h1>", "</h1>");
 
 
                 getAllLink(strURL, Contents, ref dt);//遞迴取得所有集數的資料 
@@ -4912,9 +5001,9 @@ namespace GetManhwa
             int Index1 = Contents.IndexOf("<ul style=\"display:block\">");
             int Index2 = Contents.IndexOf("<ul>");
             if (Index1 < Index2)
-                GetValue(Contents, out NewContents, out Value01, "<ul style=\"display:block\">", "</ul>");//取得內部所有資料
+                Comm_Func.GetValue(Contents, out NewContents, out Value01, "<ul style=\"display:block\">", "</ul>");//取得內部所有資料
             else
-                GetValue(Contents, out NewContents, out Value01, "<ul>", "</ul>");//取得內部所有資料
+                Comm_Func.GetValue(Contents, out NewContents, out Value01, "<ul>", "</ul>");//取得內部所有資料
 
 
 
@@ -5021,7 +5110,8 @@ namespace GetManhwa
         private bool CheckURL(string strURL)
         {
             if (strURL.IndexOf("//tw.manhuagui.com/comic/") < 0 && strURL.IndexOf("//tw.ikanman.com/comic/") < 0
-              && strURL.IndexOf("//www.manhuagui.com/") < 0 && strURL.IndexOf("//www.ikanman.com/comic/") < 0)
+              && strURL.IndexOf("//www.manhuagui.com/") < 0 && strURL.IndexOf("//www.ikanman.com/comic/") < 0
+              && strURL.IndexOf("comicbus.com/")<0)
                 return false;
             else
                 return true;
@@ -5919,6 +6009,7 @@ namespace GetManhwa
 
 
 
+
         /// <summary>
         /// SHA256解密
         /// </summary>
@@ -5959,7 +6050,7 @@ namespace GetManhwa
 
     public class WorkOption
     {
-        public WorkOption(Thread _thread,int _NO, string _ID, int _IsWork, int _Status, WebBrowser _WB, string _URL, int _PageIndex, int _PageCount, string _DirPath, string _MainName, string _Name, string _Message, int _Width, int _Height, int _SaveProcessType, int _RetryCnt,ToolStripProgressBar _pbOne,int _NavigateFlag)
+        public WorkOption(Thread _thread,int _NO, string _ID, int _IsWork, int _Status, WebBrowser _WB, string _URL, int _PageIndex, int _PageCount, string _DirPath, string _MainName, string _Name,string _PageCountName, string _Message, int _Width, int _Height, int _SaveProcessType, int _RetryCnt,ToolStripProgressBar _pbOne,int _NavigateFlag,string _Type)
         {
             this.thread = _thread;
             //this.thread.SetApartmentState(ApartmentState.STA);
@@ -5973,6 +6064,7 @@ namespace GetManhwa
             this.DirPath = _DirPath;
             this.MainName = _MainName;
             this.Name = _Name;
+            this.PageCountName = _PageCountName;
             this.Message = _Message;
             this.Width = _Width;
             this.Height = _Height;
@@ -5982,10 +6074,14 @@ namespace GetManhwa
             this.NavigateCNT = 0;
             this.NavigateFlag = _NavigateFlag;
             this.NO = _NO;
-            
+            this.Type = _Type;
+
+
         }
 
         public Thread thread { get; set; }//執行緒
+
+        public string Type { get; set; }
         public int NO { get; set; }//序號
 
         string _ID;
@@ -6111,6 +6207,7 @@ namespace GetManhwa
             }
         }
 
+        public string PageCountName { get; set; }//頁數的名稱(用在資料夾名稱)
         public int SaveProcessType { get; set; }//內頁重覆的處理方式 0跳過 1覆蓋 2重新命名
 
         public int RetryCnt { get; set; }//重試次數
@@ -6175,6 +6272,33 @@ namespace GetManhwa
                 if (_labStatus == null)
                     _labStatus = new Label();
                 _labStatus = value;
+            }
+        }
+
+        Label _labType;
+        public Label labType//漫畫網 (manhuagui、comicbus)
+        {
+            get
+            {
+                if (_labType == null)
+                    _labType = new Label();
+
+                if (_labType.Text.Trim().ToUpper() == "MANHUAGUI")
+                    _labType.Text = "漫畫櫃";
+                if (_labType.Text.Trim().ToUpper() == "COMICBUS")
+                    _labType.Text = "無限漫";
+                return _labType;
+            }
+
+            set
+            {
+                if (_labType == null)
+                    _labType = new Label();
+                _labType = value;
+                if (_labType.Text.Trim().ToUpper() == "MANHUAGUI")
+                    _labType.Text = "漫畫櫃";
+                if (_labType.Text.Trim().ToUpper() == "COMICBUS")
+                    _labType.Text = "無限漫";
             }
         }
 

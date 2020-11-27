@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ColumnHeader columnHeader18;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnGet = new System.Windows.Forms.Button();
             this.txtURL = new System.Windows.Forms.TextBox();
@@ -50,16 +50,22 @@
             this.chkIsUseDefaultSavePath = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.rdbRename = new System.Windows.Forms.RadioButton();
-            this.rdbCover = new System.Windows.Forms.RadioButton();
             this.rdbContinue = new System.Windows.Forms.RadioButton();
+            this.rdbCover = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtWorkCount = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbWorkCount = new System.Windows.Forms.ComboBox();
+            this.txtWorkCount = new System.Windows.Forms.TextBox();
             this.tlpDefault = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnLogo = new System.Windows.Forms.Button();
+            this.imgWeLogoList = new System.Windows.Forms.ImageList(this.components);
+            this.cmbLogo = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -83,10 +89,6 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.gbMenu = new System.Windows.Forms.GroupBox();
             this.gvList = new System.Windows.Forms.DataGridView();
-            this.SEL = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PageCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.URL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.palWorkList = new System.Windows.Forms.Panel();
             this.chkRecord = new System.Windows.Forms.CheckBox();
             this.chkFinishAlert = new System.Windows.Forms.CheckBox();
@@ -189,11 +191,19 @@
             this.cmsRecord_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsRecord_Dir = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsRecord_Update = new System.Windows.Forms.ToolStripMenuItem();
+            this.SEL = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PageCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.URL = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.漫畫網 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.tlpDefault.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scList)).BeginInit();
             this.scList.Panel1.SuspendLayout();
@@ -254,9 +264,9 @@
             // 
             this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtURL.Location = new System.Drawing.Point(63, 7);
+            this.txtURL.Location = new System.Drawing.Point(172, 7);
             this.txtURL.Name = "txtURL";
-            this.txtURL.Size = new System.Drawing.Size(462, 23);
+            this.txtURL.Size = new System.Drawing.Size(466, 23);
             this.txtURL.TabIndex = 2;
             // 
             // wb
@@ -273,7 +283,7 @@
             // txtP_S
             // 
             this.txtP_S.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtP_S.Location = new System.Drawing.Point(56, 88);
+            this.txtP_S.Location = new System.Drawing.Point(164, 88);
             this.txtP_S.Name = "txtP_S";
             this.txtP_S.Size = new System.Drawing.Size(37, 23);
             this.txtP_S.TabIndex = 5;
@@ -283,7 +293,7 @@
             // txtP_E
             // 
             this.txtP_E.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtP_E.Location = new System.Drawing.Point(56, 113);
+            this.txtP_E.Location = new System.Drawing.Point(164, 113);
             this.txtP_E.Name = "txtP_E";
             this.txtP_E.Size = new System.Drawing.Size(37, 23);
             this.txtP_E.TabIndex = 6;
@@ -294,15 +304,15 @@
             // 
             this.txtDirPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDirPath.Location = new System.Drawing.Point(109, 66);
+            this.txtDirPath.Location = new System.Drawing.Point(218, 66);
             this.txtDirPath.Name = "txtDirPath";
-            this.txtDirPath.Size = new System.Drawing.Size(335, 23);
+            this.txtDirPath.Size = new System.Drawing.Size(339, 23);
             this.txtDirPath.TabIndex = 7;
             // 
             // btnSetting
             // 
             this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetting.Location = new System.Drawing.Point(532, 8);
+            this.btnSetting.Location = new System.Drawing.Point(645, 7);
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.Size = new System.Drawing.Size(87, 23);
             this.btnSetting.TabIndex = 8;
@@ -314,15 +324,15 @@
             // 
             this.txtMainName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMainName.Location = new System.Drawing.Point(63, 37);
+            this.txtMainName.Location = new System.Drawing.Point(172, 37);
             this.txtMainName.Name = "txtMainName";
-            this.txtMainName.Size = new System.Drawing.Size(462, 23);
+            this.txtMainName.Size = new System.Drawing.Size(466, 23);
             this.txtMainName.TabIndex = 9;
             // 
             // btnGetBySetting
             // 
             this.btnGetBySetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGetBySetting.Location = new System.Drawing.Point(532, 38);
+            this.btnGetBySetting.Location = new System.Drawing.Point(645, 37);
             this.btnGetBySetting.Name = "btnGetBySetting";
             this.btnGetBySetting.Size = new System.Drawing.Size(87, 23);
             this.btnGetBySetting.TabIndex = 11;
@@ -333,7 +343,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 42);
+            this.label1.Location = new System.Drawing.Point(108, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 16);
             this.label1.TabIndex = 12;
@@ -342,7 +352,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(28, 12);
+            this.label3.Location = new System.Drawing.Point(132, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 16);
             this.label3.TabIndex = 14;
@@ -353,7 +363,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 91);
+            this.label6.Location = new System.Drawing.Point(114, 91);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(44, 16);
             this.label6.TabIndex = 13;
@@ -364,7 +374,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 117);
+            this.label7.Location = new System.Drawing.Point(114, 117);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 16);
             this.label7.TabIndex = 13;
@@ -385,7 +395,7 @@
             // chkIsUseDefaultSavePath
             // 
             this.chkIsUseDefaultSavePath.AutoSize = true;
-            this.chkIsUseDefaultSavePath.Location = new System.Drawing.Point(7, 68);
+            this.chkIsUseDefaultSavePath.Location = new System.Drawing.Point(111, 67);
             this.chkIsUseDefaultSavePath.Name = "chkIsUseDefaultSavePath";
             this.chkIsUseDefaultSavePath.Size = new System.Drawing.Size(99, 20);
             this.chkIsUseDefaultSavePath.TabIndex = 18;
@@ -397,90 +407,100 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox1.Controls.Add(this.rdbRename);
-            this.groupBox1.Controls.Add(this.rdbCover);
-            this.groupBox1.Controls.Add(this.rdbContinue);
-            this.groupBox1.Location = new System.Drawing.Point(641, 3);
+            this.groupBox1.Controls.Add(this.panel6);
+            this.groupBox1.Location = new System.Drawing.Point(654, 108);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(99, 97);
+            this.groupBox1.Size = new System.Drawing.Size(118, 111);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "內頁重覆處理";
             // 
+            // panel6
+            // 
+            this.panel6.BackColor = System.Drawing.Color.LightSalmon;
+            this.panel6.Controls.Add(this.rdbRename);
+            this.panel6.Controls.Add(this.rdbContinue);
+            this.panel6.Controls.Add(this.rdbCover);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(3, 18);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(112, 90);
+            this.panel6.TabIndex = 0;
+            // 
             // rdbRename
             // 
             this.rdbRename.AutoSize = true;
-            this.rdbRename.Location = new System.Drawing.Point(7, 61);
+            this.rdbRename.Location = new System.Drawing.Point(10, 51);
             this.rdbRename.Name = "rdbRename";
-            this.rdbRename.Size = new System.Drawing.Size(74, 20);
+            this.rdbRename.Size = new System.Drawing.Size(71, 16);
             this.rdbRename.TabIndex = 2;
             this.rdbRename.TabStop = true;
             this.rdbRename.Text = "重新命名";
             this.rdbRename.UseVisualStyleBackColor = true;
             // 
-            // rdbCover
-            // 
-            this.rdbCover.AutoSize = true;
-            this.rdbCover.Location = new System.Drawing.Point(7, 39);
-            this.rdbCover.Name = "rdbCover";
-            this.rdbCover.Size = new System.Drawing.Size(50, 20);
-            this.rdbCover.TabIndex = 1;
-            this.rdbCover.TabStop = true;
-            this.rdbCover.Text = "覆蓋";
-            this.rdbCover.UseVisualStyleBackColor = true;
-            // 
             // rdbContinue
             // 
             this.rdbContinue.AutoSize = true;
             this.rdbContinue.Checked = true;
-            this.rdbContinue.Location = new System.Drawing.Point(7, 17);
+            this.rdbContinue.Location = new System.Drawing.Point(10, 7);
             this.rdbContinue.Name = "rdbContinue";
-            this.rdbContinue.Size = new System.Drawing.Size(50, 20);
+            this.rdbContinue.Size = new System.Drawing.Size(47, 16);
             this.rdbContinue.TabIndex = 0;
             this.rdbContinue.TabStop = true;
             this.rdbContinue.Text = "跳過";
             this.rdbContinue.UseVisualStyleBackColor = true;
             // 
+            // rdbCover
+            // 
+            this.rdbCover.AutoSize = true;
+            this.rdbCover.Location = new System.Drawing.Point(10, 29);
+            this.rdbCover.Name = "rdbCover";
+            this.rdbCover.Size = new System.Drawing.Size(47, 16);
+            this.rdbCover.TabIndex = 1;
+            this.rdbCover.TabStop = true;
+            this.rdbCover.Text = "覆蓋";
+            this.rdbCover.UseVisualStyleBackColor = true;
+            // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.BackColor = System.Drawing.Color.LightPink;
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.txtWorkCount);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.cmbWorkCount);
-            this.groupBox3.Location = new System.Drawing.Point(756, 80);
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox3.Controls.Add(this.panel5);
+            this.groupBox3.Location = new System.Drawing.Point(651, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(121, 113);
+            this.groupBox3.Size = new System.Drawing.Size(121, 99);
             this.groupBox3.TabIndex = 20;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "同時執行數量";
-            this.groupBox3.Visible = false;
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.LightSalmon;
+            this.panel5.Controls.Add(this.label2);
+            this.panel5.Controls.Add(this.label8);
+            this.panel5.Controls.Add(this.cmbWorkCount);
+            this.panel5.Controls.Add(this.txtWorkCount);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(3, 18);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(115, 78);
+            this.panel5.TabIndex = 0;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 39);
+            this.label2.Location = new System.Drawing.Point(3, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 16);
+            this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 18;
             this.label2.Text = "自訂數";
-            // 
-            // txtWorkCount
-            // 
-            this.txtWorkCount.Location = new System.Drawing.Point(53, 33);
-            this.txtWorkCount.Name = "txtWorkCount";
-            this.txtWorkCount.Size = new System.Drawing.Size(62, 23);
-            this.txtWorkCount.TabIndex = 17;
-            this.txtWorkCount.Text = "1";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 17);
+            this.label8.Location = new System.Drawing.Point(4, 11);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(44, 16);
+            this.label8.Size = new System.Drawing.Size(41, 12);
             this.label8.TabIndex = 16;
             this.label8.Text = "執行數";
             // 
@@ -496,12 +516,20 @@
             "5",
             "全部",
             "自訂"});
-            this.cmbWorkCount.Location = new System.Drawing.Point(53, 13);
+            this.cmbWorkCount.Location = new System.Drawing.Point(51, 7);
             this.cmbWorkCount.Name = "cmbWorkCount";
-            this.cmbWorkCount.Size = new System.Drawing.Size(62, 24);
+            this.cmbWorkCount.Size = new System.Drawing.Size(61, 20);
             this.cmbWorkCount.TabIndex = 15;
             this.cmbWorkCount.Text = "1";
             this.cmbWorkCount.SelectedIndexChanged += new System.EventHandler(this.cmbWorkCount_SelectedIndexChanged);
+            // 
+            // txtWorkCount
+            // 
+            this.txtWorkCount.Location = new System.Drawing.Point(50, 30);
+            this.txtWorkCount.Name = "txtWorkCount";
+            this.txtWorkCount.Size = new System.Drawing.Size(62, 22);
+            this.txtWorkCount.TabIndex = 17;
+            this.txtWorkCount.Text = "1";
             // 
             // tlpDefault
             // 
@@ -522,10 +550,9 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Cyan;
+            this.panel1.Controls.Add(this.groupBox4);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.chkShowComplete);
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.btnOpenClosePanel);
             this.panel1.Controls.Add(this.btnAllDelete);
             this.panel1.Controls.Add(this.txtP_E);
@@ -553,6 +580,46 @@
             this.panel1.Size = new System.Drawing.Size(778, 136);
             this.panel1.TabIndex = 0;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnLogo);
+            this.groupBox4.Controls.Add(this.cmbLogo);
+            this.groupBox4.Location = new System.Drawing.Point(6, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(94, 120);
+            this.groupBox4.TabIndex = 38;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "來源選擇";
+            // 
+            // btnLogo
+            // 
+            this.btnLogo.ImageIndex = 0;
+            this.btnLogo.ImageList = this.imgWeLogoList;
+            this.btnLogo.Location = new System.Drawing.Point(7, 52);
+            this.btnLogo.Name = "btnLogo";
+            this.btnLogo.Size = new System.Drawing.Size(81, 58);
+            this.btnLogo.TabIndex = 1;
+            this.btnLogo.UseVisualStyleBackColor = true;
+            // 
+            // imgWeLogoList
+            // 
+            this.imgWeLogoList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgWeLogoList.ImageStream")));
+            this.imgWeLogoList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgWeLogoList.Images.SetKeyName(0, "manhuagui.png");
+            this.imgWeLogoList.Images.SetKeyName(1, "comicbus.png");
+            // 
+            // cmbLogo
+            // 
+            this.cmbLogo.FormattingEnabled = true;
+            this.cmbLogo.Items.AddRange(new object[] {
+            "Manhuagui",
+            "Comicbus"});
+            this.cmbLogo.Location = new System.Drawing.Point(7, 21);
+            this.cmbLogo.Name = "cmbLogo";
+            this.cmbLogo.Size = new System.Drawing.Size(81, 24);
+            this.cmbLogo.TabIndex = 0;
+            this.cmbLogo.SelectedIndexChanged += new System.EventHandler(this.cmbLogo_SelectedIndexChanged);
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -563,7 +630,7 @@
             this.groupBox2.Controls.Add(this.cmbSleep_E);
             this.groupBox2.Controls.Add(this.cmbSleep_S);
             this.groupBox2.Controls.Add(this.ckbIsSleep);
-            this.groupBox2.Location = new System.Drawing.Point(9, 94);
+            this.groupBox2.Location = new System.Drawing.Point(106, 94);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(218, 40);
             this.groupBox2.TabIndex = 37;
@@ -740,7 +807,7 @@
             // btnBrowser
             // 
             this.btnBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowser.Location = new System.Drawing.Point(450, 66);
+            this.btnBrowser.Location = new System.Drawing.Point(563, 65);
             this.btnBrowser.Name = "btnBrowser";
             this.btnBrowser.Size = new System.Drawing.Size(75, 23);
             this.btnBrowser.TabIndex = 29;
@@ -751,7 +818,7 @@
             // btnSaveSaveSetting
             // 
             this.btnSaveSaveSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveSaveSetting.Location = new System.Drawing.Point(531, 66);
+            this.btnSaveSaveSetting.Location = new System.Drawing.Point(644, 65);
             this.btnSaveSaveSetting.Name = "btnSaveSaveSetting";
             this.btnSaveSaveSetting.Size = new System.Drawing.Size(88, 23);
             this.btnSaveSaveSetting.TabIndex = 28;
@@ -781,14 +848,18 @@
             // 
             // palMenuList
             // 
+            this.palMenuList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.palMenuList.Controls.Add(this.btnAllSEL);
             this.palMenuList.Controls.Add(this.btnUnSEL);
+            this.palMenuList.Controls.Add(this.groupBox3);
+            this.palMenuList.Controls.Add(this.groupBox1);
             this.palMenuList.Controls.Add(this.btnSearch);
             this.palMenuList.Controls.Add(this.wb);
             this.palMenuList.Controls.Add(this.label9);
             this.palMenuList.Controls.Add(this.txtSearch);
             this.palMenuList.Controls.Add(this.gbMenu);
-            this.palMenuList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.palMenuList.Location = new System.Drawing.Point(0, 0);
             this.palMenuList.Name = "palMenuList";
             this.palMenuList.Size = new System.Drawing.Size(778, 222);
@@ -834,11 +905,13 @@
             // 
             // gbMenu
             // 
+            this.gbMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbMenu.Controls.Add(this.gvList);
-            this.gbMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbMenu.Location = new System.Drawing.Point(0, 0);
             this.gbMenu.Name = "gbMenu";
-            this.gbMenu.Size = new System.Drawing.Size(778, 222);
+            this.gbMenu.Size = new System.Drawing.Size(651, 222);
             this.gbMenu.TabIndex = 3;
             this.gbMenu.TabStop = false;
             this.gbMenu.Text = "下載清單";
@@ -847,56 +920,24 @@
             // 
             this.gvList.AllowDrop = true;
             this.gvList.AllowUserToOrderColumns = true;
+            this.gvList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gvList.BackgroundColor = System.Drawing.Color.Khaki;
             this.gvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SEL,
             this.NAME,
             this.PageCount,
-            this.URL});
-            this.gvList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.URL,
+            this.漫畫網});
             this.gvList.Location = new System.Drawing.Point(3, 18);
             this.gvList.Name = "gvList";
             this.gvList.RowTemplate.Height = 24;
-            this.gvList.Size = new System.Drawing.Size(772, 201);
+            this.gvList.Size = new System.Drawing.Size(645, 201);
             this.gvList.TabIndex = 11;
             this.gvList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvList_CellClick);
             this.gvList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvList_CellContentClick);
-            // 
-            // SEL
-            // 
-            this.SEL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.SEL.DataPropertyName = "SEL";
-            this.SEL.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.SEL.HeaderText = "選擇";
-            this.SEL.Name = "SEL";
-            this.SEL.Width = 35;
-            // 
-            // NAME
-            // 
-            this.NAME.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.NAME.DataPropertyName = "NAME";
-            this.NAME.HeaderText = "名稱";
-            this.NAME.Name = "NAME";
-            this.NAME.Width = 54;
-            // 
-            // PageCount
-            // 
-            this.PageCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.PageCount.DataPropertyName = "PageCount";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.PageCount.DefaultCellStyle = dataGridViewCellStyle2;
-            this.PageCount.HeaderText = "頁數";
-            this.PageCount.Name = "PageCount";
-            this.PageCount.Width = 54;
-            // 
-            // URL
-            // 
-            this.URL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.URL.DataPropertyName = "URL";
-            this.URL.HeaderText = "連結";
-            this.URL.Name = "URL";
-            this.URL.Width = 54;
             // 
             // palWorkList
             // 
@@ -1862,6 +1903,47 @@
             this.cmsRecord_Update.Text = "更新網站資料";
             this.cmsRecord_Update.Click += new System.EventHandler(this.cmsRecord_Update_Click);
             // 
+            // SEL
+            // 
+            this.SEL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.SEL.DataPropertyName = "SEL";
+            this.SEL.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SEL.HeaderText = "選擇";
+            this.SEL.Name = "SEL";
+            this.SEL.Width = 35;
+            // 
+            // NAME
+            // 
+            this.NAME.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.NAME.DataPropertyName = "NAME";
+            this.NAME.HeaderText = "名稱";
+            this.NAME.Name = "NAME";
+            this.NAME.Width = 54;
+            // 
+            // PageCount
+            // 
+            this.PageCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.PageCount.DataPropertyName = "PageCount";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.PageCount.DefaultCellStyle = dataGridViewCellStyle1;
+            this.PageCount.HeaderText = "頁數";
+            this.PageCount.Name = "PageCount";
+            this.PageCount.Width = 54;
+            // 
+            // URL
+            // 
+            this.URL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.URL.DataPropertyName = "URL";
+            this.URL.HeaderText = "連結";
+            this.URL.Name = "URL";
+            this.URL.Width = 54;
+            // 
+            // 漫畫網
+            // 
+            this.漫畫網.DataPropertyName = "Type";
+            this.漫畫網.HeaderText = "漫畫網";
+            this.漫畫網.Name = "漫畫網";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1871,17 +1953,21 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(810, 710);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "愛看漫抓抓 V2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.tlpDefault.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.scList.Panel1.ResumeLayout(false);
@@ -1973,10 +2059,6 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Panel palMenuList;
         private System.Windows.Forms.DataGridView gvList;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn SEL;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NAME;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PageCount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn URL;
         private System.Windows.Forms.WebBrowser wbSearch;
         private System.Windows.Forms.TableLayoutPanel tlpWeb;
         private System.Windows.Forms.TabControl tabControl1;
@@ -2081,6 +2163,17 @@
         private System.Windows.Forms.ComboBox cmbSleep_E;
         private System.Windows.Forms.ComboBox cmbSleep_S;
         public System.Windows.Forms.CheckBox ckbIsSleep;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnLogo;
+        private System.Windows.Forms.ImageList imgWeLogoList;
+        private System.Windows.Forms.ComboBox cmbLogo;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn SEL;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NAME;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PageCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn URL;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 漫畫網;
     }
 }
 

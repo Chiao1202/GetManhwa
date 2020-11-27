@@ -145,10 +145,10 @@ D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetSettin
 D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetSetting\obj\Debug\GetSetting.csprojResolveAssemblyReference.cache
 D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetSetting\obj\Debug\GetSetting.dll
 D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_12_6_Webp修改\GetSetting\obj\Debug\GetSetting.pdb
-D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN\GetManhwa\GetSetting\bin\Debug\GetSetting.dll
-D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN\GetManhwa\GetSetting\bin\Debug\GetSetting.pdb
-D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN\GetManhwa\GetSetting\bin\Debug\MM.dll
-D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN\GetManhwa\GetSetting\bin\Debug\MM.xml
-D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN\GetManhwa\GetSetting\obj\Debug\GetSetting.csprojResolveAssemblyReference.cache
-D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN\GetManhwa\GetSetting\obj\Debug\GetSetting.dll
-D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN\GetManhwa\GetSetting\obj\Debug\GetSetting.pdb
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetSetting\bin\Debug\GetSetting.dll
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetSetting\bin\Debug\GetSetting.pdb
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetSetting\bin\Debug\MM.dll
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetSetting\bin\Debug\MM.xml
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetSetting\obj\Debug\GetSetting.csprojResolveAssemblyReference.cache
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetSetting\obj\Debug\GetSetting.dll
+D:\個人開發軟體\GetManhwa_OPEN\GetManhwa_OPEN_V2_13_comicbus\GetSetting\obj\Debug\GetSetting.pdb
